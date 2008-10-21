@@ -1,0 +1,40 @@
+README - InteGrade Version 0.3
+----------------------------------
+
+InteGrade project is a multi-university effort to build a novel Grid Computing
+middleware infrastructure that leverages the idle computing power of personal
+workstations. InteGrade features an object-oriented architecture based on the
+CORBA industry standard for distributed objects.  InteGrade also strives to
+ensure that users who share the idle portions of their resources in the Grid
+shall not perceive any loss in the quality of service provided by their
+applications.  Finally, InteGrade also supports the reliable execution of
+parallel applications that requires communication among the application
+processes.
+
+InteGrade currently supports three different classes of applications:
+sequential, parametric (parameter sweep applications) and BSP.  Sequential applications are
+composed of a binary that executes on a single machine.  Parametric applications
+are also composed of a single binary, but multiple copies of the same binary are
+executed, each with its own input parameters.  Finally, the BSP applications are
+programmed according to the Bulk Synchronous Parallel computing model, which
+divides the computation in supersteps, each of them composed of computation,
+communication, and finished with a mandatory synchronization barrier.
+
+InteGrade is an official "Incubadora Virtual da FAPESP" project. Source code and
+documentation are hosted at:
+
+http://www.integrade.org.br
+
+
+INSTALLATION
+------------
+
+See the INSTALL file.
+
+Contact
+-------
+
+If you have any questions/suggestions, please do not hesitate to write an e-mail
+to:
+
+ - InteGrade Support Team <integrade-support@incubadora.fapesp.br>
