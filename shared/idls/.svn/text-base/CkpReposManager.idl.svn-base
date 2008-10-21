@@ -1,0 +1,68 @@
+module subtypes {
+
+    struct CkpReposAddressList {
+      sequence<string> ipAddress;
+      sequence<short> portNumber;
+    };
+
+    struct CheckpointRemovalList {
+      sequence<string> executionId;
+      sequence<short> ckpNumber;
+      sequence<short> fragmentNumber;
+    };
+
+};
+
+module types {
+
+    typedef sequence<string> ChecksumList;
+
+    struct CkpInfo {
+      long ckpNumber;
+      long ckpSize;
+      sequence<string> ipAddress;
+      sequence<short> portNumber;
+      sequence<string> checksum;
+    };
+};
+
+module interfaces {
+    ///
+    /// Interface CkpReposManager
+    ///
+    interface CkpReposManager{
+
+      ///
+      /// Sets the checkpoint storage strategy
+      ///
+      void setCkpReposMode(in string executionId, in long mode, in long nNodes, in long nExtra);
+
+      ///
+      /// Get a list of available checkpoint repositories
+      ///
+      subtypes::CkpReposAddressList getCkpRepos(in string executionId, in string ipAddress, in long ckpNumber, in types::ChecksumList checksumList, in long ckpSize);
+      //subtypes::CkpReposAddressList getCkpRepos(in string executionId, in string ipAddress);
+
+      ///
+      /// Gets the location of the last stored checkpoint
+      ///
+      types::CkpInfo getLastCkpInfo(in string executionId);
+
+      ///
+      /// Registers a new checkpoint repository
+      /// @param availableSpace - amount of available space, in kbytes
+      ///
+      long registerCkpRepos(in string ipAddress, in short port, in long availableSpace);
+
+
+      ///
+      /// Notifies that a checkpoint has been stored
+      ///
+      void notifyCkpStored(in long ckpReposId, in string executionId, in long ckpNumber, in long fragmentNumber, in long availableSpace);
+
+      long updateRepositoryStatus(in long ckpReposId, in long availableSpace);
+
+      subtypes::CheckpointRemovalList getCheckpointRemovalList(in long ckpReposId);
+
+    }; // Interface CkpReposManager
+};

@@ -1,0 +1,3 @@
+ckpStore ckpReposStore
+location ./
+interval 1

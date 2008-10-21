@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="cluster"/>
+	<classpathentry kind="src" path="omg"/>
+	<classpathentry excluding="examples/counter/|examples/hello/|examples/arquivo/|examples/fibonacci/|examples/multmat/|examples/|classes/" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/pos/vinicius/programas/jade/lib/jade.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/asct"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/grm"/>
+	<classpathentry kind="lib" path="src/examples/iwa/SEMAGCAT.jar"/>
+	<classpathentry kind="lib" path="/home/pub/JacORB/lib/antlr-2.7.2.jar"/>
+	<classpathentry kind="lib" path="/home/pub/JacORB/lib/jacorb.jar" sourcepath="/home/pub/JacORB/src"/>
+	<classpathentry kind="output" path="examples/fibonacci"/>
+</classpath>

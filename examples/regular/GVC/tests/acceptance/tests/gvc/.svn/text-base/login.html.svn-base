@@ -1,0 +1,91 @@
+<html>
+<head><title>login</title></head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">login</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>"email": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>"password": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:email</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>"password": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:password</td>
+	<td>admin2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Email: admin</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Group: (Admin)</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertText</td>
+	<td>link=Logout</td>
+	<td>Logout</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>loginForm:loginButton</td>
+	<td>Go</td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

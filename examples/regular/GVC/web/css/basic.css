@@ -1,0 +1,256 @@
+.standard {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+.standard_bold {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #000000;
+    font-weight: bold;
+}
+
+.scrollerTable {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: #000000;
+    padding: 2;
+    border-style: solid;
+    border-width: 1px;
+    width: 400px;
+}
+
+.scroller {
+    padding-left:20px;
+}
+
+.paginator {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+
+.standardTable {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+
+	color: #000000;
+    padding: 2;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.standardTable_Header {
+	color: #000000;
+    background-color: #FFDD00;
+    padding: 3;
+    text-align: center;
+    border: none;
+}
+
+.standardTable_SortHeader {
+    background-color: #FFDD00;
+    color: #000000;
+    padding: 3;
+    text-align: center;
+    border: none;
+    font-weight: bold;
+}
+
+.standardTable_Footer {
+    background-color: #FFFFE0;
+}
+
+.standardTable_Row1 {
+    background-color: #FFFFE0;
+}
+
+.standardTable_Row2 {
+    background-color: #FFFFE0;
+}
+
+.standardTable_Column {
+}
+
+.standardTable_ColumnCentered {
+    text-align: center
+}
+
+a {
+	color: #333366;
+    text-decoration: underline;
+    font-size: 12px;
+}
+
+a:hover {
+	color: #333366;
+    text-decoration: underline;
+}
+
+
+.sortLink {
+	color: #333366;
+    text-decoration: none;
+}
+
+
+.fileUploadInput {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+
+	color: #000000;
+    width: 250px;
+}
+
+
+body {
+	background-color: #FFFFFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #000000;
+}
+
+.content {
+	width: 500px;
+	vertical-align: top;
+	text-align: left;
+	border: 0px #000000 solid;
+	padding: 0px 0px 0px 0px;
+}
+
+.contentTitle {
+	height: 50px;
+	vertical-align: top;
+}
+.contentBody {
+
+}
+
+.table {
+	color: #000000;
+	border: thin #000000 solid;
+	padding: 0px 0px 0px 0px;
+	text-align: center;
+}
+
+a:link {
+	color: #000000;
+	font-weight: bold;
+}
+
+a:hover {
+	color: #999999;
+}
+
+a:active {
+	color: #000000;
+}
+
+a:visited {
+	color: #000000;
+}
+
+.pageTitle {
+	font-size: 22px;
+	color: MidnightBlue;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.pageSubTitle {
+	font-size: 18px;
+	color: MidnightBlue;
+	font-weight: bold;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.popup {
+	border-color: efefef;
+	color: black;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-weight: bold;
+    background-color:rgb(255,255,255);
+    color: #000000;
+    border: 1px solid #CCCCCC;
+    font-size:smaller;
+    padding: 5px;
+}
+
+.popup table {
+    font-size:smaller;
+}
+
+.button {
+	background-color: #CCCCCC;
+}
+
+.fileUploadInput {
+	background-color: #FFFFFF;
+	font-size: 10px;
+	border: #000000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+
+/* Messages */
+.information {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: blue;
+}
+.warning {
+	font-weight: bold;
+	color: orange;
+}
+.error {
+	font-family : verdana, Geneva, Arial, Helvetica, sans-serif;
+	color: red;
+}
+.errorList {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+
+	font-weight: bold;
+	color: #FF0000;
+	list-style-type: disc;
+}
+/* End of Messages */
+
+/* Scroller Table */
+.scrollerTable {
+	color: #000000;
+	border-collapse: collapse; 
+	border: thin #000000 solid;
+
+	text-align: center;
+	width: 490px;
+}
+.scrollerTableHeader {
+	background-color: #000000;
+	text-align: center;
+	font-weight: bold;
+	color: white;
+}
+.scrollerTableFooter {
+	color: #FFFFFF;
+	text-align: center;
+	background-color: black;
+}
+.scrollerTableRow1 {
+	background-color: #CCCCCC;
+}
+.scrollerTableRow2 {
+	background-color: #FFFFFF;
+}
+.scrollerTableColumn1 {
+	text-align: left;
+	width: 100px;
+}
+.scrollerTableColumn2 {
+	text-align: center;
+	max-width: 250px;
+}
+.dataScrollerStyleClass { 
+	position: relative; left: 140px;
+}
+.dsPaginatorTableClass {
+	background-color: #CCCCCC;
+}
+.dataScrollerPaginatorColumnClass {
+	background-color: #CCCCCC;
+}
+.dataScrollerPaginatorActiveColumnClass {
+	background-color: white;
+}
+/* End of Scroller Table */

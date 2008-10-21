@@ -1,0 +1,53 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/tools/asct/src/asct/core
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+repository
+dir
+
+corba
+dir
+
+ApplicationControlFacade.java
+file
+
+
+
+
+2007-07-05T14:15:22.000000Z
+fd631fe1949377d46e05358ed89638ec
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+
+submission
+dir
+
+util
+dir
+

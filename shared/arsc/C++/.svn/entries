@@ -1,0 +1,70 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/shared/arsc/C++
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+jni
+dir
+
+src
+dir
+
+Makefile.vars
+file
+
+
+
+
+2007-07-05T14:15:45.000000Z
+97cbda666c6dec5c2228dc02f3c0539a
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+arsc.conf
+file
+
+
+
+
+2007-07-05T14:15:45.000000Z
+faabd89d74311c3cdc26053b184eff9f
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+Makefile
+file
+
+
+
+
+2007-07-05T14:15:45.000000Z
+460a9f31fdb1fcd6e39572a4a0276cc7
+2007-05-24T20:41:03.741451Z
+18
+diego
+

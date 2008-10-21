@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="omg">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/home/pub/JacORB/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/auto/home/pub/JacORB/lib/antlr-2.7.2.jar"/>
+	<classpathentry kind="lib" path="/auto/home/pub/JacORB/lib/jacorb.jar" sourcepath="/auto/home/pub/JacORB/src"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

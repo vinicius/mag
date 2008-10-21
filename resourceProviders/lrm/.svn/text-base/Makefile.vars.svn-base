@@ -1,0 +1,2 @@
+LUAINCDIR=/usr/local/publico/oilpack/include/
+LUALIBDIR=/usr/local/publico/oilpack/lib/

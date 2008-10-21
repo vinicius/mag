@@ -1,0 +1,119 @@
+TARGET = LrmLauncher
+
+UTILSPATH=../../shared/utils/c++
+LUPA_PATH=../lupa/src/objects
+ARSC_PATH=../../shared/arsc/C++/src/objects
+DEBUG=true
+##########################################################
+# Source Files                                           #
+##########################################################
+
+CPPFILES = src/NodeStaticInformation.cpp  \
+           src/DynamicInformationMonitor.cpp \
+           src/CpuUsage.cpp       \
+           src/LrmImpl.cpp        \
+           src/LrmLauncher.cpp    \
+           src/LrmSkeleton.cpp    \
+           src/LinuxProcess.cpp   \
+           src/LinuxSpecifics.cpp \
+           src/GrmStub.cpp        \
+           src/AsctStub.cpp       \
+           src/AgentHandlerStub.cpp    \
+           src/ExecutionManagerStub.cpp      \
+           src/ApplicationRepositoryStub.cpp \
+	   $(CPPARSCFILE) \
+           $(UTILSPATH)/CharArrayArrayBeautifier.cpp   \
+           $(UTILSPATH)/StringTokenizer.cpp \
+           $(UTILSPATH)/Config.cpp          \
+           $(UTILSPATH)/LuaUtils.cpp        \
+           $(UTILSPATH)/OrbUtils.cpp         \
+           $(UTILSPATH)/NetInfo.cpp         \
+           $(UTILSPATH)/Condition.cpp \
+           $(UTILSPATH)/NameServiceStub.cpp
+
+##########################################################
+# Lupa Objects                                           #
+##########################################################
+
+LUPA_OBJECTS = $(LUPA_PATH)/BasicData.o \
+               $(LUPA_PATH)/CpuInstantAnalyser.o \
+               $(LUPA_PATH)/DataBank.o \
+               $(LUPA_PATH)/DataCollector.o \
+               $(LUPA_PATH)/DayData.o \
+               $(LUPA_PATH)/GlobalDataBank.o \
+               $(LUPA_PATH)/LinuxCpuInstantAnalyser.o \
+               $(LUPA_PATH)/Lupa.o \
+               $(LUPA_PATH)/PersistenceManager.o \
+               $(LUPA_PATH)/SystemAnalyser.o \
+               $(LUPA_PATH)/TimeUtility.o \
+               $(LUPA_PATH)/UsagePredictor.o \
+               $(LUPA_PATH)/WeekClusteringStrategy.o \
+               $(LUPA_PATH)/WeekPredictionStrategy.o
+
+
+include Makefile.vars
+
+##########################################################
+# Compiler Flags                                         #
+##########################################################
+
+CXX = g++-3.3
+INCDIR = -I../../shared -I$(LUAINCDIR)
+DEBUG = false
+ifeq ($(DEBUG), true)
+DEBUGFLAGS = -g3 -O0 -fno-inline
+endif
+WARN_FLAGS = -Wall -pedantic -ansi
+#CPPFLAGS = -pthread -O2 -fPIC $(CPPARSCGFLAGS)
+CPPFLAGS = -pthread -fPIC $(CPPARSCGFLAGS)
+SECURITYFLAGS = $(CRYPTO++LIBDIR) $(KERBEROSLIBDIR) 
+LDFLAGS = $(SECURITYFLAGS) -L$(LUALIBDIR) -Wl,-rpath,$(LUALIBDIR) -lm -llualib -llua -loilall -lluasocket  -lpthread
+
+##########################################################
+# Generating modified paths for objects and dependencies #
+##########################################################
+
+DIRLIST = $(dir $(CPPFILES))
+FILELIST = $(notdir $(CPPFILES))
+DIRDEPSLIST = $(addsuffix dependencies/, $(DIRLIST))
+DIROBJSLIST = $(addsuffix objects/, $(DIRLIST))
+OBJFILESLIST = $(join $(DIROBJSLIST), $(FILELIST))
+DEPFILESLIST = $(join $(DIRDEPSLIST), $(FILELIST))
+DIRDEPS = $(sort $(DIRDEPSLIST)) #Removes duplicate dirs
+DIROBJS = $(sort $(DIROBJSLIST)) #Removes duplicate dirs
+
+OBJFILES = $(OBJFILESLIST:.cpp=.o)
+CPPDEPENDS = $(DEPFILESLIST:.cpp=.d)
+transfname = $(patsubst %.o, %.d, $(subst objects/,dependencies/,$(1) ) )
+
+all: first $(TARGET)
+
+-include $(CPPDEPENDS)
+
+first:
+	@mkdir -p $(DIRDEPS) $(DIROBJS)
+
+src/objects/%.o: src/%.cpp
+	$(CXX) $(INCDIR) $(WARN_FLAGS) -c $(CPPFLAGS) $(DEBUGFLAGS)  -o $@ $<
+	$(CXX) $(INCDIR) $(WARN_FLAGS) $(CPPFLAGS) -MM  $< > $(call transfname, $@)
+	@mv -f $(call transfname, $@) $(call transfname, $@).tmp
+	@sed -e 's|.*:|$@:|' < $(call transfname, $@).tmp > $(call transfname, $@)
+	@sed -e 's/.*://' -e 's/\\$$//' < $(call transfname, $@).tmp | fmt -1 | sed -e 's/^ *//' -e 's/$$/:/' >> $(call transfname, $@)
+	@rm -f $(call transfname, $@).tmp
+
+$(UTILSPATH)/objects/%.o: $(UTILSPATH)/%.cpp
+	$(CXX) $(INCDIR) $(WARN_FLAGS) -c $(CPPFLAGS) $(DEBUGFLAGS)  -o $@ $<
+	$(CXX) $(INCDIR) $(WARN_FLAGS) $(CPPFLAGS) -MM  $< > $(call transfname, $@)
+	@mv -f $(call transfname, $@) $(call transfname, $@).tmp
+	@sed -e 's|.*:|$@:|' < $(call transfname, $@).tmp > $(call transfname, $@)
+	@sed -e 's/.*://' -e 's/\\$$//' < $(call transfname, $@).tmp | fmt -1 | sed -e 's/^ *//' -e 's/$$/:/' >> $(call transfname, $@)
+	@rm -f $(call transfname, $@).tmp
+
+$(TARGET): $(OBJFILES) $(LUPA_OBJECTS) $(ARSC_OBJECTS)
+	$(CXX) $(INCDIR) $(WARN_FLAGS) $(CPPFLAGS) $(DEBUGFLAGS) -o $@ $+ $(LDFLAGS)
+ifeq ($(DEBUG), false)
+	strip -s $(TARGET)
+endif
+
+clean:
+	rm -rf $(DIRDEPS) $(DIROBJS) $(TARGET) [0-9]*

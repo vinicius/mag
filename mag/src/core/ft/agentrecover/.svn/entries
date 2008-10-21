@@ -1,0 +1,55 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src/core/ft/agentrecover
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-26T01:51:57.352147Z
+23
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+AgentRecover.java
+file
+
+
+
+
+2007-08-08T21:00:10.000000Z
+0a65dd9c94546be55ca9f01b2fedda7b
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+AgentRecoverImpl.java
+file
+
+
+
+
+2007-08-08T21:00:10.000000Z
+3f954e9de45d5aa1accc3c06626adc3a
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+behaviours
+dir
+

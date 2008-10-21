@@ -1,0 +1,69 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>customize</title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">customize</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/customize.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTitle</td>
+	<td>GVC</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Convert</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>convertionForm:filesTable:0:customizeButton</td>
+	<td></td>
+</tr>
+<!--Validando Resolução e FPS-->
+<tr>
+	<td>type</td>
+	<td>customizeForm:widthText</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>customizeForm:heightText</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>customizeForm:fpsText</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>customizeForm:convertButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>"widthText": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>"heightText": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>"fpsText": Value is required.</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

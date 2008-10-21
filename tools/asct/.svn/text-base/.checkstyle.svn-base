@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?><fileset-config file-format-version="1.1.0" simple-config="true">
+<fileset name="all" enabled="true" check-config-name="Sun Checks (Eclipse)" type="builtin" location="sun_checks_eclipse.xml" description="Slightly modified version of Sun Checks that better matches the default code formatter setting of Eclipse."><file-match-pattern match-pattern="." include-pattern="true"/>
+</fileset>
+</fileset-config>

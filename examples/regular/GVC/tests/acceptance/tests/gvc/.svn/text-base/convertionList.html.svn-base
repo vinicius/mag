@@ -1,0 +1,79 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">convertionList</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/GVC</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Convert</td>
+	<td></td>
+</tr>
+<!--Elements-->
+<tr>
+	<td>assertTextPresent</td>
+	<td>Upload - Video Files List</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Convert To</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Original Files</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:palmButton</td>
+	<td>PalmOS</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:customizeButton</td>
+	<td>Customize</td>
+</tr>
+<tr>
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:iPodButton</td>
+	<td>iPod</td>
+</tr>
+<!--Test 1 - iPod-->
+<tr>
+	<td>clickAndWait</td>
+	<td>convertionForm:filesTable:0:iPodButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Converting file, please wait...</td>
+	<td></td>
+</tr>
+<!--Test 2 - Palm-->
+<tr>
+	<td>clickAndWait</td>
+	<td>convertionForm:filesTable:0:palmButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Converting file, please wait...</td>
+	<td></td>
+</tr>
+<!--Test 3 - Customize-->
+<!--Test 4 - Invalid File-->
+<!--Test 1-->
+</tbody></table>
+</body>
+</html>

@@ -1,0 +1,75 @@
+module dataTypes {
+	typedef sequence<octet> Stream;   ///< Binary data that represents security
+	                                  ///< context or general cryptographic data.
+};
+
+module clusterManagement {
+
+
+    exception ContextInitiationException {
+        string myMessage;
+    };
+    exception ContextFinalizationException {
+        string myMessage;
+    };
+    
+    exception SignatureCheckingException {
+     string myMessage;
+    };
+    exception SignatureRequestException {
+     string myMessage;
+    };
+    exception SelfTestException {
+     string myMessage;
+    };
+     exception FileChecksumException {
+     string myMessage;
+    };
+    
+
+	///
+	/// Arsm - Defines a service that allows security contexts to be handled
+	/// and signatures to be checked and verified.
+	///
+	interface Arsm {
+		///
+
+		/// Receives a context initialization trial data from an ARSC and tries to contemplate it.
+		///
+		/// @param contextStream - Context initialization data
+		/// @return a token used to initialize context (based in the GSS protocol)
+		///
+		dataTypes::Stream initiateContext(in dataTypes::Stream contextStream) raises (ContextInitiationException);
+
+		///
+		/// Finalizes a security context
+		///
+		/// @param contextStream - Information that identifies a security context
+		///
+		void finalizeContext(in dataTypes::Stream contextStream) raises (ContextFinalizationException);
+
+		///
+		/// Verifies if the message is properly signed
+		///
+		/// @param messageStream - Signed message that is verified
+		/// @return - Signed message 
+		///
+		dataTypes::Stream checkSignature(in dataTypes::Stream messageStream) raises (SignatureCheckingException);
+
+		///
+		/// Requests a message to be signed
+		///
+		/// @param messageStream - Message to be signed
+		/// @return - Signed message
+                ///
+		dataTypes::Stream requestSignature(in dataTypes::Stream messageStream) raises (SignatureRequestException);
+
+		///
+		/// Test almost all the functionalities of the Arsm module
+		///
+		/// @param signedMessage - Information signed that is used for test module
+		///
+		dataTypes::Stream selfTest(in dataTypes::Stream signedMessage) raises (SelfTestException); 
+	};
+};
+

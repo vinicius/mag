@@ -1,0 +1,9 @@
+#!/bin/sh
+mv AppInst.java AppInst
+mv AppInstCount.java AppInstCount
+mv AppNotInst.java AppNotInst
+mv FiboInst.java FiboInst
+mv Fibo.java Fibo
+mv FiboPVT.java FiboPVT
+mv Grep.java Grep
+mv Grep2.java Grep2

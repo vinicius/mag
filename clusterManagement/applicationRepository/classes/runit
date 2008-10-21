@@ -1,0 +1,1 @@
+jaco  -Djava.security.krb5.conf=/etc/krb5.conf -Djavax.security.auth.useSubjectCredsOnly=false  -Djava.security.auth.login.config=arscLogin.conf applicationRepository.ApplicationRepositoryLauncher

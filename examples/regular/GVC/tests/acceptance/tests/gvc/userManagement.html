@@ -1,0 +1,166 @@
+<html>
+<head><title>userManagement</title></head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">userManagement</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>click</td>
+	<td>link=User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Sorry, You don't have permission to acess this page.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:email</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>select</td>
+	<td>selectUserForm:users</td>
+	<td>label=admin</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>userManagementForm:email</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>verifyValue</td>
+	<td>userManagementForm:password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:removeUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Impossible to remove this user.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:email</td>
+	<td>myUser</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:password</td>
+	<td>myPassword</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:addUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User added.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:addUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User already exists.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:password</td>
+	<td>myPassword2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:updateUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:email</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:updateUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>"email": Value is required.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:email</td>
+	<td>myUser2</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:removeUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User does not exist.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>userManagementForm:email</td>
+	<td>myUser</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>userManagementForm:removeUser</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User removed.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

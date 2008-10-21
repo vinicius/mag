@@ -1,0 +1,41 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/libs/h2
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+h2.jar
+file
+
+
+
+
+2007-07-05T14:15:09.000000Z
+b034f68e05a4f98cd82a6cacf2395803
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+

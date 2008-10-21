@@ -1,0 +1,40 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/examples/regular/GVC/tests/acceptance/template
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+template.html
+file
+
+
+
+
+2007-07-05T14:15:47.000000Z
+228b764a5661c9049f163c6812cfa411
+2007-05-24T20:41:03.741451Z
+18
+diego
+

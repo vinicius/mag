@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<project name="MagArchitecture" default="compile" basedir=".">
+
+    <property file="build.properties"/>
+
+    <property environment="env"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+    <property name="jacorb.home" value="${env.JACORB_HOME}"/>
+    <property name="jade.home" value="${env.JADE_HOME}"/>
+    <property name="brakes.home" value="${classes.dir}/core/brakes"/>
+  
+	<!-- 
+    <property name="xindice.home" value="${env.XINDICE_HOME}"/>
+    <property name="xindice.libs" value="${env.XINDICE_LIBS}"/> 
+    -->
+   
+    <path id="class.path">
+    <pathelement path="${basedir}"/> 
+	<pathelement path="."/>
+	<pathelement path="../tools/asctGui/classes/"/>
+	<pathelement path="${brakes.home}"/>
+    <pathelement path="../clusterManagement/grm/classes/"/>
+  	<!-- 	
+	<fileset dir="${xindice.home}/java/lib/" includes="*.jar"/>
+	-->
+	<fileset dir="${jade.home}/lib/" includes="*.jar"/>
+	<fileset dir="${jacorb.home}/lib/" includes="*.jar"/>
+
+    </path>
+
+  <!-- =================================================================== -->
+  <!-- Creates Directories                                                 -->
+  <!-- =================================================================== -->
+
+  <target name="prepare">
+    <mkdir dir="${classes.dir}"/>
+    <mkdir dir="${classes.dir}/ahiors"/>
+    <mkdir dir="${classes.dir}/core/ft/stablestorage/checkpoints"/>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Create runit helper script                                          -->
+  <!-- =================================================================== -->
+
+  <target name="makeRunit" depends="prepare">
+    <copy file="../clusterManagement/grm/classes/jacorb.properties" todir="${classes.dir}"/> 
+  	<copy file="../setup.conf" todir="${classes.dir}"/> 
+    <echo file="${classes.dir}/runit"
+          message="jaco -cp ${jade.home}/lib/jade.jar:${jade.home}/lib/jadeTools.jar:${jade.home}/lib/iiop.jar:${jade.home}/lib/http.jar:${jade.home}/lib/Base64.jar:../../clusterManagement/grm/classes:../../tools/asctGui/classes/:${brakes.home}:. core.appexec.agenthandler.AgentHandlerLauncher"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compile Java files                                                  -->
+  <!-- =================================================================== -->
+
+  <target name="compile" depends="makeRunit">
+  <echo message="Sources: ${src.dir}"/>
+  <echo message="Dest   : ${classes.dir}"/>
+  <javac srcdir="${src.dir}"
+          destdir="${classes.dir}"
+          debug="on"
+          deprecation="off"
+          optimize="off">
+	  <classpath refid="class.path"/>
+  </javac>
+  <chmod file="${classes.dir}/runit" perm="755"/>
+  <copy  file="${basedir}/asct.conf" todir="${basedir}/classes"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleanup                                                             -->
+  <!-- =================================================================== -->
+
+  <target name="clean" >
+    <!-- Deletes all .class -->
+    <delete dir="${classes.dir}"/>
+  </target>
+
+
+</project>

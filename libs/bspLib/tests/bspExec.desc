@@ -1,0 +1,9 @@
+#appConstraints osName == 'linux'
+appPreferences swap >= 128
+#comments are allowed
+numExecs 3
+appId 42
+#comments are allowed
+argLine -m "Hello World"#comments are allowed
+isProcessZero true
+processZeroIor IOR:CAFEBABE

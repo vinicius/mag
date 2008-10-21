@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+
+<project name="GVC" basedir=".">
+	<description>GVC</description>	
+
+	<property name="appName" value="GVC"/>
+	<property name="resourcesDir" value="src/resources"/>
+	<property name="javaSourceDir" value="src"/>
+	<property name="javaClassDir" value="web/WEB-INF/classes"/>
+	<property name="webDir" value="web"/>
+	<property name="webinfDir" value="web/WEB-INF"/>
+	<property name="libDir" value="web/WEB-INF/lib"/>
+	
+	<property name="testLibDir" value="tests/unit/lib" />
+	<property name="testSourceDir" value="tests/unit/src" />
+	<property name="testClassDir" value="tests/unit/bin" />
+	<property name="testReportDir" value="tests/unit/report" />
+	
+	<property name="firefox" value="&quot;/usr/bin/firefox&quot;"/>
+	<property name="seleniumServer" value="tests/acceptance/lib/selenium-server.jar"/>
+	<property name="auxiliarProgram" value="tests/acceptance/lib/seleniumTestsResultsVerifier.jar"/>
+	<property name="baseURL" value="&quot;http://localhost:8080&quot;"/>
+	<property name="testSuite" value="&quot;tests/acceptance/tests/testSuite.html&quot;"/>
+	<property name="resultsFile" value="&quot;/auto/home/grad/paulocb/workspace/GVC/tests/acceptance/report/results.html&quot;"/>
+	<property name="timeout" value="3600"/>
+
+	<property name="tomcatDir" value="/home/pos/helves/tomcat" />
+	<property name="deployDir" value="${tomcatDir}/webapps" />
+
+	<target name="clean">
+		<delete file="${appName}.war"/>
+		<delete file="${appName}.zip"/>
+		<delete file="${appName}.jar}"/>
+		<delete dir="${deployDir}/${appName}"/>
+		<delete>
+			<fileset dir="${tomcatDir}/logs" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="backup" depends="clean">
+		<zip destfile="${appName}.zip" basedir="."/>
+	</target>
+	
+	<!-- Project  -->
+	<path id="classpath">
+		<fileset dir="${libDir}">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="compile">
+		<javac 
+			srcdir="${javaSourceDir}"
+			destdir="${javaClassDir}"			
+			source="1.5"
+			debug="on">
+			<classpath refid="classpath"/>
+		</javac>
+		<mkdir dir="${javaClassDir}/resources"/>
+		<copy todir="${resourcesDir}">
+			<fileset dir="${javaClassDir}/resources"/>
+		</copy>
+	</target>
+	
+	<target name="jar" depends="compile">
+		<jar destfile="${appName}.jar" basedir="${javaClassDir}" />
+	</target>
+	
+	<!-- Unit Tests -->
+	<path id="test.classpath">
+		<fileset dir="${libDir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${testLibDir}">
+			<include name="*.jar"/>
+		</fileset>
+		<fileset dir="${basedir}">
+			<include name="${appName}.jar" />
+		</fileset>
+	</path>
+	
+	<target name="tests-unit-clean">
+		<delete includeemptydirs="true">
+			<fileset dir="${testClassDir}" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="tests-unit-init">
+		<mkdir dir="${testClassDir}"/>	
+		<mkdir dir="${testReportDir}"/>
+	</target>
+	
+	<target name="tests-unit-compile" depends="tests-unit-init, jar">
+		<javac srcdir="${testSourceDir}" destdir="${testClassDir}">
+			<classpath refid="test.classpath"/>
+		</javac>
+	</target>
+	
+	<target name="tests-unit-cleanReport" depends="tests-unit-init">
+		<delete includeemptydirs="true">
+			<fileset dir="${testReportDir}" includes="**/*"/>
+		</delete>
+	</target>
+	
+	<target name="tests-unit-run" depends="tests-unit-clean, tests-unit-compile">
+		<junit fork="true">
+			<classpath refid="test.classpath" />
+			<formatter type="xml" />
+			<batchtest todir="${testReportDir}">
+				<fileset dir="${testClassDir}"
+				includes="**/*Test.class" />
+			</batchtest>
+		</junit>
+	</target>
+	
+	<target name="tests-unit-report" depends="tests-unit-cleanReport, tests-unit-run">
+		<junitreport todir="${testReportDir}">
+			<fileset dir="${testReportDir}">
+				<include name="TEST-*.xml" />
+		    </fileset>
+			<report todir="${testReportDir}" />
+		</junitreport>
+	</target>
+	
+	<!-- Acceptance Tests -->
+	<target name="tests-acceptance-run">
+		<java jar="${seleniumServer}" fork="true">
+			<arg line="-htmlSuite ${firefox}"/>
+			<arg line="${baseURL}" />
+			<arg line="${testSuite}"/>
+			<arg line="${resultsFile}"/>
+			<arg line="-timeout ${timeout}"/>
+		</java>
+		<echo message="Verifying result"/>
+		<java jar="${auxiliarProgram}" fork="true" failonerror="true">
+			<arg value="${resultsFile}"/>
+		</java>
+	</target>
+	
+	<!-- Web -->
+	<target name="war" depends="compile">
+		<war destfile="${appName}.war" webxml="${webinfDir}/web.xml">
+			<fileset dir="${webDir}" excludes="**/web*.xml">
+				<!-- Excluir .class dos testes -->
+				<exclude name="**/*Test*"/>				
+			</fileset>
+		</war>
+	</target>
+
+	<target name="deploy" depends="war">
+		<copy file="${appName}.war" todir="${deployDir}"/>
+	</target>
+
+	<target name="completeDeploy" depends="tomcatSTOP, clean, deploy">
+		<exec executable="${tomcatDir}/bin/startup.sh"/>
+	</target>
+
+	
+	<target name="undeploy">
+		<delete file="${deployDir}/${appName}.war"/>
+		<delete dir="${deployDir}/${appName}"/>
+	</target>
+	
+	<target name="redeploy" depends="undeploy, deploy"/>	
+
+	<target name="tomcatSTOP">
+		<exec executable="${tomcatDir}/bin/shutdown.sh"/>
+		 <sleep seconds="5"/>
+	</target>
+	
+	<target name="tomcatSTART">
+		<exec executable="${tomcatDir}/bin/startup.sh"/>
+	</target>
+	
+</project>

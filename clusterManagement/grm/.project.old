@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>grm</name>
+	<comment></comment>
+	<projects>
+		<project>applicationRepository</project>
+		<project>asct</project>
+		<project>mag</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>omg</name>
+			<type>2</type>
+			<location>/auto/home/pub/JacORB-2.2.3/src/generated</location>
+		</link>
+	</linkedResources>
+</projectDescription>

@@ -1,0 +1,41 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src/examples/iwa
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+SEMAGCAT.jar
+file
+
+
+
+
+2007-08-23T21:49:58.000000Z
+cddd64ba8ca556737d3c43ddba93df6b
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+

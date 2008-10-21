@@ -1,0 +1,508 @@
+//--- DataTypes.idl ----------------------------------------------------------------------------- 
+
+  module dataTypes {
+
+    typedef sequence<string> FileNameSequence; ///< A sequence of filenames 
+    typedef sequence<octet> File;              ///< A file, represented as a binary stream 
+
+    ///
+    /// Struct FileStruct - Represents a file and its associated filename
+    ///
+    struct FileStruct {
+      string fileName;       ///< The name of the given file
+      dataTypes::File file;  ///< File contents, represented as a binary stream
+    };
+
+    typedef sequence<dataTypes::FileStruct> FileSequence;
+
+    ///
+    /// Struct ExecutionRequestId - A request ID as issued by the grid client (ASCT)
+    ///
+    struct ExecutionRequestId {
+      string requestId; 	     ///< The ID of the requested application
+      string processId;     ///< The ID of each process of the application
+      string replicaId;	
+    };
+
+    ///
+    /// Struct AppRequeriments - Represents the execution requeriments of an application
+    ///
+    struct AppRequeriments{
+      string applicationConstraints;
+      string applicationPreferences;
+    };
+
+
+
+    ///
+    /// Struct BinaryFileInfo - Info about a binary file
+    ///
+    //    struct BinaryFileInfo {
+    //      string basepath; ///< The full path of the binary file (without the name) relative to the root of the repository
+    //      string name;     ///< The name of the file
+    //    };
+
+    //    typedef sequence<dataTypes::BinaryFileInfo> BinaryFileInfoSequence;
+
+    typedef sequence<string> BinaryNameSequence;
+
+    ///
+    /// Struct NodeStaticInformation - Static information of a given node
+    ///
+    struct NodeStaticInformation {
+      string hostName;      ///< Hostname
+      string osName;        ///< OSName
+      string osVersion;     ///< OSVersion
+      string processorName; ///< Processor Maker
+      long processorMhz;    ///< Processor Operating Frequency in MHz
+      long totalRam;        ///< Total RAM
+      long totalSwap;       ///< Total swap space
+    };
+
+    ///
+    /// Struct NodeDynamicInformation - Dynamic information of a given node
+    ///
+    struct NodeDynamicInformation {
+      long freeRam;       ///< Available RAM, in bytes
+      long freeSwap;      ///< Available swap, in bytes
+      long freeDiskSpace; ///< Available disk space, in bytes
+      float cpuUsage;     ///< Used CPU percentage
+    };
+
+    ///
+    /// Struct SubtreeInformation - Static and dynamic averages of a given cluster subtree
+    ///
+    struct SubtreeInformation {  
+      dataTypes::NodeStaticInformation staticAverages;
+      dataTypes::NodeDynamicInformation dynamicAverages;
+    };
+
+    ///
+    /// RequestAcceptanceInformation - Information regarding an execution request acceptance by an LRM
+    ///
+    /// FIXME: Will be removed when the ASCT <-> LRM protocol changes
+    struct RequestAcceptanceInformation {
+      string lrmIor;
+      dataTypes::ExecutionRequestId executionRequestId;
+      string executionId; 
+    };
+
+
+    enum ApplicationType { regular, parametric, bsp };
+
+    ///
+    /// Struct ApplicationExecutionInformations - Contains details used to execute all application processes
+    ///
+    struct ApplicationExecutionInformation {
+      string requestingAsctIor;        ///< IOR of the ASCT which originated the request
+      string originalGrmIor;           ///< IOR of the GRM which first received the request
+      string previousGrmIor;           ///< IOR of the GRM which the request came from
+
+      //string userId;
+      //string source;	
+
+      dataTypes::ApplicationType applicationType;
+      string applicationRepositoryIor; ///< IOR of the Application Repository that stores the application
+
+      string applicationName;
+      string basePath;
+
+      string applicationConstraints;   ///< Application restrictions (e.g. platform, amount of memory, etc...)
+      string applicationPreferences;   ///< Application preferences
+
+      dataTypes::BinaryNameSequence availableBinaries; ///< List of binaries available in the Application Repository
+
+      boolean forceDifferentNodes;     ///< Indicates that each process must execute on a different node
+
+      long numberOfReplicas;	
+    };
+
+    ///
+    /// Struct ProcessExecutionInformation - Contains information that used to execute a single application process
+    ///
+    struct ProcessExecutionInformation {
+      dataTypes::ExecutionRequestId executionRequestId;  ///< The request ID issued by the ASCT
+      string processArguments;
+      dataTypes::FileNameSequence outputFileNames;
+    };
+
+    typedef sequence<dataTypes::ProcessExecutionInformation> ProcessExecutionInformationSequence;
+
+    struct ApplicationExecutionStateInformation{
+	string requestId;
+	string applicationName;
+	long executionState;
+        string submissionTimeStamp;
+	string finishTimeStamp;
+   };
+
+    struct ProcessExecutionStateInformation{
+	dataTypes::ExecutionRequestId executionRequestId;
+	long executionState;
+	string executionCode;
+	string lrmIOR;
+	string startExecutionTimeStamp;
+	string endExecutionTimeStamp;
+    };
+
+    typedef sequence<dataTypes::ApplicationExecutionStateInformation> ApplicationExecutionStateInformationSequence;
+    typedef sequence<dataTypes::ProcessExecutionStateInformation> ProcessExecutionStateInformationSequence;
+
+    ///
+    /// Struct BspProcessZeroInformation - Used to inform if a process of the BSP application is the Process Zero,
+    /// Otherwise it contains Process Zero's IOR
+    ///
+    struct BspProcessZeroInformation {
+      boolean isProcessZero;   ///< True ONLY if the process is Process Zero
+      string processZeroIor;   ///< If isProcessZero is false, contains the Process Zero IOR 
+    };
+
+  }; // module dataTypes
+
+
+//--- Lrm.idl ----------------------------------------------------------------------------- 
+
+  //--------------------------------------------------------------------------------------
+  module resourceProviders {
+
+    ///
+    /// Interface Lrm - Represents the LRM abstraction, which is responsible for providing
+    /// information about resource availability on a given InteGrade machine. It also
+    /// allows for the execution of Grid applications on a given node.
+    ///
+    interface Lrm {
+
+      ///
+      /// Sets the interval between each query to the OS to determine available
+      /// system resources (e.g. free RAM and CPU) and send to the GRM
+      ///
+      /// @param seconds - Sample interval in seconds
+      ///
+      void setSampleInterval(in long seconds);
+
+      ///
+      /// Sets the maximum interval between updates sent to the GRM
+      ///
+      /// @param seconds - Keep-alive interval in seconds
+      ///
+      void setKeepAliveInterval(in long seconds);
+
+      ///
+      /// Called by a GRM to test if the given LRM is available
+      ///
+      boolean isAvailable();
+
+      ///
+      /// Receives a remote execution request from a GRM
+      ///
+      /// @param applicationExecutionInformation - Common specifications to all application processes
+      /// @param processExecutionInformation     - Specific specifications regarding a given application process.
+      ///
+      long requestExecution(in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+			    in dataTypes::ProcessExecutionInformation processExecutionInformation);
+
+
+      ///
+      /// Returns application's output files
+      ///
+      /// @param executionId - The ID of the application from which files should be returned
+      ///
+      dataTypes::FileSequence requestOutputFiles(in string executionId);
+
+      ///
+      /// Returns the status of a given application (i.e. running or finished)
+      ///
+      /// @param executionId - ID of the application which will have its status returned
+      ///
+      string getStatus(in string executionId);
+
+      ///
+      /// Returns the number of the last checkpoint generated
+      ///
+      /// @param executionId - ID of the application which will have its last checkpoint number returned
+      ///
+      long getLastCheckpointNumber(in string executionId);
+
+      ///
+      /// Restarts application execution
+      ///
+      /// @param executionId - ID of the application which will be restarted
+      /// @param processArguments - Arguments that should be applied to restarted application
+      ///
+      long restartExecution(in string executionId, in string processArguments);
+
+      ///
+      /// Kills an application process
+      ///
+      /// @param executionId - ID of the process which will be killed
+      ///
+      void killProcess(in string executionId);
+
+    }; // interface Lrm
+  }; // module resourceProviders
+
+//--- Grm.idl ----------------------------------------------------------------------------- 
+
+  module clusterManagement {
+
+    ///
+    /// Inteface Grm - The GRM acts as the cluster information service, storing information
+    /// regarding resource availability in each of the cluster nodes. It also schedules Grid 
+    /// applications to cluster nodes.
+    ///
+    interface Grm {
+
+      ///
+      /// Registers a LRM with this GRM
+      ///
+      /// @param lrmIor - LRM's IOR
+      /// @param nodeStaticInformation - Node's Static Information
+      ///
+      void registerLrm(in string lrmIor, in dataTypes::NodeStaticInformation nodeStaticInformation);
+
+      ///
+      /// Updates LRM information in this GRM
+      ///
+      /// @param lrmIor - LRM's IOR
+      /// @param nodeDynamicInformation - Node's Dynamic Information
+      ///
+      void updateLrmInformation(in string lrmIor, in dataTypes::NodeDynamicInformation nodeDynamicInformation);
+
+      ///
+      /// Receives an execution request from a ASCT, that should be scheduled to suitable LRMs
+      ///
+      /// @param applicationExecutionInformation - Specifications common to all application processes
+      /// @param processExecutionInformationSequence - Specifications regarding a given application process
+      ///
+      boolean requestRemoteExecution(in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+				     in dataTypes::ProcessExecutionInformationSequence processExecutionInformationSequence);
+
+      ///
+      /// Registers a child GRM informaiton within this GRM
+      ///
+      /// Normally called by: The registering child GRM
+      ///
+      /// @param childGrmIor - Child GRM's IOR
+      /// @param subtreeInformation - Child GRM's averages for static/dynamic information regarding its subtree
+      ///
+
+      void registerGrm(in string childGrmIor, in dataTypes::SubtreeInformation subtreeInformation);
+
+      ///
+      /// Updates a child GRM information within this GRM
+      ///
+      /// Normally called by: The registering child GRM
+      ///
+      /// @param childGrmIor - Child GRM's IOR
+      /// @param subtreeInformation - Child GRM's averages for static/dynamic information regarding its subtree
+      ///
+      void updateGrmInformation(in string childGrmIor, in dataTypes::SubtreeInformation subtreeInformation);
+
+      ///
+      /// Sets the interval between checks for significant resource availability
+      /// changes in the children GRMs. In case they exist, the parent GRM will
+      /// be notified.
+      ///
+      /// Normally called by: Parent GRM
+      ///
+      /// @param seconds - Sample interval in seconds
+      ///
+
+      void setSampleInterval(in long seconds);
+
+      ///
+      /// Sets the maximum interval between updates sent to the parent GRM
+      ///
+      /// Normally called by: Parent GRM
+      ///
+      /// @param seconds - Keep-alive interval in seconds
+      ///
+
+      void setKeepAliveInterval(in long seconds);
+
+      ///
+      /// Tests if this GRM is available
+      ///
+      /// Normally called by: Parent GRM
+      ///
+
+      boolean isAvailable();
+
+
+      void setLocation(in string location, in string ior);
+
+      string migrationLocationRequest(in dataTypes::FileNameSequence locations );
+	
+
+    }; // interface Grm
+    
+    interface AgentHandler: resourceProviders::Lrm {
+                ///
+		/// Method responsible for unregister an agent from
+		/// an AgentHandler.
+	        ///
+	        /// @param executionId - the id of the finished application
+		///		
+		void unregisterAgent (in string executionId);
+                
+               // Methor used to request restore application
+		void restoreExecution (in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+				       in dataTypes::ProcessExecutionInformation processExecutionInformation);
+
+                ///
+		/// Method invoked by LRM to release a grid node
+		///
+		void releaseNode ();	
+	
+                ///
+	        ///Return an application's output files
+	        ///
+	        /// @param appId - the ID of the application which files should be returned
+	        ///
+                //types::FileSeq requestOutputFiles(in string appExecutionId);
+
+	        ///
+	        /// Kills an application
+	        ///
+	        /// @param appId - id of the application which will be killed
+	        ///
+	        //void kill(in string appExecutionId);
+
+   
+    
+    }; // interface AgentHandler
+
+      interface CrmAgent{  
+
+      ///
+      /// Receives a remote execution request from a GRM
+      ///
+      /// @param applicationExecutionInformation - Common specifications to all application processes
+      /// @param processExecutionInformation     - Specific specifications regarding a given application process.
+      /// @param lrmIors                         - 
+      ///
+      void requestRemoteExecution(in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+			    in dataTypes::ProcessExecutionInformationSequence processExecutionInformationSequence, 
+                            in dataTypes::FileNameSequence lrmIors);
+
+      };// interface Crm
+
+      interface ExecutionManagementAgent{  
+
+      ///
+      /// Receives a remote execution request from a GRM
+      ///
+      /// @param applicationExecutionInformation - Common specifications to all application processes
+      /// @param processExecutionInformation     - Specific specifications regarding a given application process.
+      ///
+      void setExecutionScheduled(in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+			    in dataTypes::ProcessExecutionInformationSequence processExecutionInformationSequence);
+
+      void setExecutionRefused(	in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+			    in dataTypes::ProcessExecutionInformationSequence processExecutionInformationSequence);
+
+      };// interface Ema
+
+  }; 
+
+
+//--- Asct.idl ----------------------------------------------------------------------------- 
+
+  module tools {
+
+    ///
+    /// Inteface Asct - The ASCT allows a user to register application with an Application
+    /// Repository. It also allows the user to submit execution requests to a GRM, specifying
+    /// constraints and preferences, if applicable.
+    ///
+    interface Asct {
+
+      ///
+      /// Informs that the process execution was accepted by an LRM
+      ///
+      /// @param requestAcceptanceInformation - Execution information on the LRM
+      ///
+      void setExecutionAccepted(in dataTypes::RequestAcceptanceInformation requestAcceptanceInformation);
+
+      ///
+      /// Informs that the process execution was refused by an LRM
+      ///
+      /// @param executionRequestId - ID of the refused execution request
+      ///
+      void setExecutionRefused(in dataTypes::ExecutionRequestId executionRequestId);
+
+      ///
+      /// Informs that the process execution finished on an LRM
+      ///
+      /// @param executionRequestId - ID of the finished execution request
+      ///
+      void setExecutionFinished(in dataTypes::ExecutionRequestId executionRequestId);
+
+      ///
+      /// Returns the input files needed to allow the remote execution of
+      /// a request made by this ASCT
+      ///
+      /// @param executionRequestId - the request ID as issued by the requesting ASCT
+      ///
+      dataTypes::FileSequence getInputFiles(in dataTypes::ExecutionRequestId executionRequestId);
+
+    }; // interface Asct
+  }; // module tools
+
+
+//--- ExecutionManager.idl ----------------------------------------------------------------------------- 
+
+  module clusterManagement {
+
+    ///
+    /// Inteface ExecutionManager - FIXME: Add comment
+    ///
+    interface ExecutionManager {
+
+      ///
+      /// Informs that a process started executing on an LRM
+      /// 
+      /// Normally called by: The LRM where the process is running
+      ///
+      /// @param lrmIor - The IOR of the LRM where the process is executing
+      /// @param executionId - The ID of the process executing on the LRM
+      /// @param restartId  - A counter that controls the reinitialization process
+      /// @param executionRequestId - The request ID as issued by the requesting ASCT
+      ///
+      void setProcessExecutionStarted(in string lrmIor, in string executionId, in long restartId,
+				      in dataTypes::ExecutionRequestId executionRequestId);
+
+      ///
+      /// Informs that a process finished executing on an LRM
+      ///
+      /// Normally called by: The LRM where the process is running
+      ///
+      /// @param restartId  - A counter that controls the reinitialization process
+      /// @param executionRequestId - The request ID as issued by the requesting ASCT
+      /// @param status - The status of process termination
+      ///
+      long setProcessExecutionFinished(in long restartId, in dataTypes::ExecutionRequestId executionRequestId, 
+				       in long status);
+
+      ///
+      /// Informs that an application has been scheduled for execution
+      ///
+      /// Normally called by: The GRM that schedules the execution
+      ///
+      /// @param applicationExecutionInformation - Specifications common to all application processes
+      /// @param processExecutionInformationSequence - Specifications regarding a given application process
+      ///
+      void setExecutionScheduled(in dataTypes::ApplicationExecutionInformation applicationExecutionInformation,
+				 in dataTypes::ProcessExecutionInformationSequence processExecutionInformationSequence);
+
+      ///
+      /// Register a BSP application's process and returns information about the BSP process zero
+      ///
+      /// @param executionRequestId - The request ID as issued by the requesting ASCT
+      /// @param bspProxyIor - bspProxyIor
+      ///
+      dataTypes::BspProcessZeroInformation registerBspProcess(in dataTypes::ExecutionRequestId executionRequestId, 
+							      in string bspProxyIor);
+
+    }; //interface ExecutionManager
+  }; // module clusterManagement

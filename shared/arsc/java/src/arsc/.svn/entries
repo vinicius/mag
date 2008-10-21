@@ -1,0 +1,52 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/trunk/shared/arsc/java/src/arsc
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+ArscCallbackHandler.java
+file
+
+
+
+
+2007-12-05T00:31:19.000000Z
+501a6676987decd36a3d00822f9180b4
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+ArscImpl.java
+file
+
+
+
+
+2007-12-05T00:31:19.000000Z
+5eb1342a291e7ff484c4b75cbfb757b4
+2007-05-24T20:41:03.741451Z
+18
+diego
+

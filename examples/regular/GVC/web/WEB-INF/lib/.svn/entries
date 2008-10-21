@@ -1,0 +1,54 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/examples/regular/GVC/web/WEB-INF/lib
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+ajaxanywhere-1.2-RC2.jar
+file
+
+
+
+
+2007-07-05T14:15:52.000000Z
+7ebd6cfb33500c32ccf44b49f97425cf
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+
+asct.jar
+file
+
+
+
+
+2007-07-05T14:15:52.000000Z
+3506e981e437e9f7c2511cfc504bcf7f
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+

@@ -1,0 +1,104 @@
+app.name=GVC
+app.home=Welcome
+app.success=File submitted succesfully!!!! :-)
+menu.item=Options
+menu.subitem1=Upload
+menu.subitem2=Convert
+menu.subitem3=Download
+menu.subitem4=Submission List
+menu.subitem5=File Management
+menu.subitem6=User Management
+menu.subitem7=Change Password
+
+scroller.next=Next
+scroller.previous=Previous
+scroller.first=First
+scroller.last=Last
+scroller.fastRewind=FastRewind
+scroller.fastForward=FastForward
+
+warning.uploadFile=Upload error.
+warning.convertFile=Convert error.
+
+fileupload.title=File Upload
+fileupload.file=File
+fileupload.sucess=File uploaded succesfully!
+fileupload.buttonSubmit=Upload
+fileupload.gimmeimage=Gimme an image:
+fileupload.name=Give it a name:
+fileupload.msg1=The image you loaded up:
+fileupload.msg2=Link to download (and save) the image :
+fileupload.msg3=Link to show the image directly:
+fileupload.dlimg=Download image
+fileupload.confirm=Confirm file Upload
+fileupload.cancel=Cancel File Upload
+fileupload.arqName=File name
+fileupload.contenType=Content type
+fileupload.size=Size
+
+emptyFileList=There are no files.
+
+about.credits=Credits
+about.wiki=Wiki
+
+credits.title=Credits
+
+login.userID=Email
+login.password=Password
+login.group=Group
+login.register=Register
+login.forgetPassword=Forget Password
+login.logout=Logout
+
+userManagement.title=User Management
+userManagement.email=Email
+userManagement.password=Password
+userManagement.group=Group
+userManagement.addUser=Add New User
+userManagement.updateUser=Update
+userManagement.removeUser=Remove
+userManagement.pickAnUser=Pick an User
+
+userDataManagement.title=Change Password
+userDataManagement.email=Email
+userDataManagement.password=Password
+userDataManagement.updateUser=Update
+
+downloadList.title=Download - Video Files List
+downloadList.originalFiles=Original Files
+downloadList.fileFormat=File Format
+
+convertionList.title=Video Conversion
+convertionList.subtitle=Uploaded - Video File List
+convertionList.iPodConvertButton=iPod
+convertionList.palmConvertButton=PalmOS
+convertionList.customizeButton=Customize
+convetionList.originalFiles=Original Files
+convetionList.convertOption=Convert To
+convertionList.nodes=Number of nodes: 
+
+customize.title=Customize Conversion Parameters
+customize.resolution=Resolution:
+customize.width=Width:
+customize.height=Height:
+customize.fps=Frames per second:
+customize.format=Container:
+customize.videoCodec=Video Codec:
+customize.audioCodec=Audio Codec:
+customize.convertButton=Convert
+customize.videoName=Video Name:
+customize.outputFile=Output File Name:
+customize.nodes=Number of nodes: 
+
+information.title=Information
+information.sorry=Please, Login first.
+
+submissionList.title=Status of all Integrade requests
+submissionList.column1 = Id
+submissionList.column2 = Application
+submissionList.column3 = File
+submissionList.column4 = Format
+submissionList.column5 = Status
+submissionList.emptyRequest = There are no requests. 
+
+fileManagement.title=File Management 

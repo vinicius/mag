@@ -1,0 +1,38 @@
+InteGrade (Version 0.3) - Mon Jul 31 16:09:33 BRST 2006
+
+* Split the asctGui module into asct and gui modules
+
+* Preliminar support for multiple clusters
+
+* Support for checkpoint storage in remote repositories (CRM, ckpRepos)
+	
+* Refactoring in several modules
+
+----------------------------------------------------------------------
+	
+InteGrade (Version 0.2) - Mon Nov 21 16:59:33 BRST 2005
+
+* Name server (NFS is not required anymore)
+
+* Security in Application Repository
+
+* Improvements in asctGui
+
+* Some bugs fixed and documentation updated
+
+* Simplifications in installation procedures
+
+----------------------------------------------------------------------
+
+InteGrade (Version 0.1) - Fri Feb  4 14:52:38 BRST 2005
+
+* This is the first InteGrade release!
+
+* Support for BSMP communication in BSPlib.
+
+* Documentation Updated.
+
+* Improvements in InteGrade's BSPlib
+
+-----------------------------------------------------------------------
+

@@ -1,0 +1,80 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/tools/testInteGrade/classes
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+tools
+dir
+
+runit
+file
+
+
+
+
+2007-07-05T14:15:20.000000Z
+a45117c4bf75d672a4efb97a26df3ea3
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+
+testIntegrade
+dir
+
+resourceProviders
+dir
+
+jacorb.properties
+file
+
+
+
+
+2007-07-05T14:15:20.000000Z
+0d2932619410ad436aa69c1fc681da4c
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+clusterManagement
+dir
+
+dataTypes
+dir
+
+asct.conf
+file
+
+
+
+
+2007-07-05T14:15:20.000000Z
+19ab55d1410acf47af6bcd4261ab00a6
+2007-05-24T20:41:03.741451Z
+18
+diego
+

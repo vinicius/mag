@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>asct</name>
+	<comment></comment>
+	<projects>
+		<project>applicationRepository</project>
+		<project>grm</project>
+		<project>mag</project>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>arsc</name>
+			<type>2</type>
+			<location>/home/pos/vinicius/integrade-mag/shared/arsc/java/src</location>
+		</link>
+		<link>
+			<name>arsm</name>
+			<type>2</type>
+			<location>/home/pos/vinicius/integrade-mag/clusterManagement/arsm/src</location>
+		</link>
+	</linkedResources>
+</projectDescription>

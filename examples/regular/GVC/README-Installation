@@ -1,0 +1,111 @@
+1) CVS
+
+1.1)
+	Host: incubadora.fapesp.br
+	Repository Path: /cvsroot/integrade
+	Connection Type: extssh
+1.2)
+	Directory: integrade/examples/regular/GVC
+_______________________________________________________________________________
+2) GVC Code
+
+2.1) Extract GVC.zip to some directory
+
+2.2) Set the environment variable:
+	GVC_HOME = .../GVC/workspace/web/
+
+2.3) Create and give write permission to dir:
+	$GVC_HOME/files/download/
+	$GVC_HOME/files/upload/
+	
+2.4) Create dir: $GVC_HOME/serializable/ 
+
+2.5) Libraries 
+	Extract librariesGVC.zip to .../GVC/workspace/web/WEB-INF/lib/
+	Extract acceptanceTestlibrariesGVC.zip to .../GVC/workspace/tests/acceptance/lib/
+	Extract unitTestlibrariesGVC.zip to .../GVC/workspace/tests/unit/lib/
+
+_______________________________________________________________________________
+3) Install FFMpeg
+
+	Basicamente, pra compilar o FFMPEG é só dar "./configure" e depois um
+	"make". Claro que não podia ser tão fácil...
+	     A maior pegadinha é que o gcc 4.0 não compila o FFMPEG. Então, é
+	essencial executar o "./configure" com a opção "--cc=gcc-3.3".
+	     A outra coisa é que o formato de áudio do iPod não é built-in no
+	FFMPEG. Esse formato (AAC) está numa lib externa, a libfaac. Eu baixei ela
+	do sourceforge e compilei.
+	     Aí já dá pra compilar o FFMPEG com suporte a iPod e Palm. Tem que
+	configurar com a opção "--enable-faac". O problema é que, como a lib está
+	somente na minha conta, mais algumas gambiarras são necessárias: pegar o
+	arquivo libfaac.so e colocar no diretório libavcodec (dentro do FFMPEG) e
+	pegar o header faac.h e colocar no libavcodec/include (ou no libavcodec, não
+	lembro bem... na dúvida, coloque nos dois). Com isso, é preciso avisar o
+	compilardor que as LIBs e os headers estão no diretório corrente, com as
+	opções "--extra-ldflags=." e "--extra-cflags=.". Claro que vocês podem usar
+	essas opções sem copiar os arquivos pro diretório corrente.
+	     Eu consegui compilar o FFMPEG uma vez com suporte a OGG, Theora e
+	Vorbis, baixando essas libs do site www.xiph.org , mas deu um problema e o
+	formato de iPod parou de funcionar :-(. Além disso, essas libs ficam
+	linkadas dinamicamente, e acabam atrapalhando a execução no integrade. Em
+	todo caso, pra fazer isso o processo é o mesmo: compilar as 3 libs,
+	colocá-las no diretório libavcodec, colocar os headers lá também, executar
+	"./configure" com as opções cabíveis pra habilitar as libs (vejam em
+	./configure --help) e depois dar make.
+_______________________________________________________________________________
+4) Install Integrade
+
+	1 - Baixe do site www.integrade.org.br o código fonte.
+	2 - Compile seguindo as instruções do arquivo INSTALL (Já compilado e
+	disponível no diretório /home/pos/helves/integrade).
+	3 - Para iniciar o integrade execute
+	/home/pos/helves/integrade/startservices.sh all
+	4 - Para matar os processos do integrade execute:
+	     a. /home/pos/helves/integrade/stopservices servers
+	     b. /home/pos/helves/integrade/stopservices lrm
+	
+	5 - Para registar e executar uma aplicação no integrade, use o ASCT GUI
+	(interface gráfica para registro e submissão de aplicação no integrade)
+	     Obs: o shell script startservices.sh irá iniciar o ASCT GUI.
+	
+	6 - Já registrei a aplicação ffmpeg como pode ser visto na interface gráfica
+	do ASCT.
+	7 - Para executar o ffmpeg,  siga os  seguintes passos:
+	     a. Selecione na área da "application repository" a aplicação ffmpeg.
+	     b. Após a seleção irá aparecer o binário "Linux_i686".
+	     c. Use o botão direito em cima do "Linux_i686" para selecionar a opção
+	"Execute".
+	     d. Uma nova janela abrirá para preenchimento das seguintes informações:
+	
+	         d.1 - "Application type" - Selecione a opção "Regular"
+	         d.2 - "Arguments" - O ffmpeg espera o nome do arquivo de entrada e
+	saída.
+	         d.3 - "Output Files" - Selecione "stderr" e "stdout"
+	         d.4 - Pressione o botão "Submit"
+	
+	8 - Na parte inferior da interface ASCT irá aparecer uma linha referente a
+	submissão realizada.
+	     Quando a linha ficar verde é porque a aplicação terminou a execução.
+	9 - Após o término da execução, com o botão direito na linha ffmpeg que foi
+	criada na "Requested Executions",
+	     selecione a opção "view Results".
+	10- Na janela que se abrirá será possível ver  a sáida de erro (stderr) e a
+	saída padrão (stdout). 
+_______________________________________________________________________________
+5) Install Tomcat v5.x
+
+5.1) URL: http://localhost:8080/GVC/
+
+5.2) Para configurar o tomcat usar o Jacorb, é necessário colocar as seguintes
+	 opções para a JVM:
+
+	-Djacorb.home=/auto/home/pos/helves/integrade/required/JacORB-2.2.3
+	-Djacorb.config.dir=/auto/home/pos/helves/integrade/required/JacORB-2.2.3
+	-Dorg.omg.CORBA.ORBClass=org.jacorb.orb.ORB
+	-Dorg.omg.CORBA.ORBSingletonClass=org.jacorb.orb.ORBSingleton
+
+5.3) Deploy: 
+	- Make a war with build.xml (Ant) and copy to tomcat/webapps
+	
+	- or edit tomcat/conf/server.xml of Tomcat
+	<Context path="/GVC" reloadable="true" docBase="GVC_HOME" workDir="somedir/work"/>

@@ -1,0 +1,207 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE faces-config PUBLIC
+  "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+  "http://java.sun.com/dtd/web-facesconfig_1_0.dtd" >
+
+<faces-config>
+
+	<managed-bean>
+		<managed-bean-name>convertionBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.ConvertionBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>customizeConvertionBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.CustomizeConvertionBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>	
+	
+	<managed-bean>
+        <managed-bean-name>fileUploadBean</managed-bean-name>
+        <managed-bean-class>gvc.bean.FileUploadBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+		<managed-property>
+			<property-name>bufferSize</property-name>
+			<property-class>int</property-class>
+			<value>10000000</value>
+		</managed-property>
+    </managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>requestListBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.RequestListBean</managed-bean-class>
+		<managed-bean-scope>application</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.LoginBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>userManagementBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.UserManagementBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+
+	<managed-bean>
+		<managed-bean-name>userDataManagementBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.UserDataManagementBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	<managed-bean>
+		<managed-bean-name>fileManagementBean</managed-bean-name>
+		<managed-bean-class>gvc.bean.FileManagementBean</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>
+	
+	
+	<navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>home</from-outcome>
+			<to-view-id>/pages/home.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>credits</from-outcome>
+			<to-view-id>/pages/common/credits.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>fileupload</from-outcome>
+			<to-view-id>/pages/user/upload/fileupload.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>filedownload</from-outcome>
+			<to-view-id>/pages/user/conversion/downloadList.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>fileconvert</from-outcome>
+			<to-view-id>/pages/user/conversion/convertionList.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>submissionlist</from-outcome>
+			<to-view-id>/pages/user/conversion/submissionList.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>fileManagement</from-outcome>
+			<to-view-id>/pages/user/conversion/management.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userManagement</from-outcome>
+			<to-view-id>/pages/admin/management/userManagement.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>userDataManagement</from-outcome>
+			<to-view-id>/pages/user/userData/userDataManagement.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/common/about.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>credits</from-outcome>
+			<to-view-id>/pages/common/credits.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+
+	<navigation-rule>
+		<from-view-id>/pages/user/upload/fileupload.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/user/upload/fileupload_summary.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/user/upload/fileupload.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/user/conversion/convertionList.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/user/conversion/submissionList.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/user/conversion/convertionList.jsp</to-view-id>
+	    	</navigation-case>
+		<navigation-case>
+			<from-outcome>customize</from-outcome>
+			<to-view-id>/pages/user/conversion/customize.jsp</to-view-id>
+	    	</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/user/conversion/customize.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>success</from-outcome>
+			<to-view-id>/pages/user/conversion/submissionList.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/user/conversion/customize.jsp</to-view-id>
+    	</navigation-case>
+		<navigation-case>
+			<from-outcome>help</from-outcome>
+			<to-view-id>/pages/user/conversion/help.jsp</to-view-id>
+    	</navigation-case>
+	</navigation-rule>
+	
+	<navigation-rule>
+		<from-view-id>/pages/admin/management/userManagement.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>done</from-outcome>
+			<to-view-id>/pages/admin/management/userManagement.jsp</to-view-id>
+		</navigation-case>
+    </navigation-rule>
+    
+   	<navigation-rule>
+		<from-view-id>/pages/user/userData/userDataManagement.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>done</from-outcome>
+			<to-view-id>/pages/user/userData/userDataManagement.jsp</to-view-id>
+		</navigation-case>
+    </navigation-rule>
+    
+	<navigation-rule>
+		<from-view-id>/pages/user/conversion/management.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>done</from-outcome>
+			<to-view-id>/pages/user/conversion/management.jsp</to-view-id>
+		</navigation-case>
+    </navigation-rule>
+    
+	<navigation-rule>
+		<from-view-id>/pages/login/login.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>failure</from-outcome>
+			<to-view-id>/pages/home.jsp</to-view-id>
+		</navigation-case>
+		<navigation-case>
+			<from-outcome>done</from-outcome>
+			<to-view-id>/pages/home.jsp</to-view-id>
+			<redirect/>
+		</navigation-case>
+    </navigation-rule>
+
+	<!-- Tiles -->
+	<application>
+		<view-handler>org.apache.myfaces.tomahawk.application.jsp.JspTilesViewHandlerImpl</view-handler>
+	</application>
+
+</faces-config>

@@ -1,0 +1,7 @@
+cosNamingIdlPath ../../../shared/idls/CosNaming.idl
+appReposIdlPath ../../../shared/idls/ApplicationRepository.idl
+ckpReposManagerIdlPath ../../../shared/idls/CkpReposManager.idl
+resourceManagementIdlPath ../../../shared/idls/ResourceManagement.idl
+bspIdlPath ../../../libs/bspLib/BspLib.idl
+orbPath /usr/local/publico/oilpack/?
+serverNameRef corbaloc::guaguin:47039/NameService

@@ -1,0 +1,97 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/shared/arsc/java
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+.project
+file
+
+
+
+
+2007-07-05T14:15:44.000000Z
+f3c554c3ca14aad4bff6a89cd8dfb43a
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+images
+dir
+
+src
+dir
+
+.externalToolBuilders
+dir
+
+jacorb.properties
+file
+
+
+
+
+2007-07-05T14:15:44.000000Z
+003617c2acaca07afb16ed878e8d3b7d
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+arsc.conf
+file
+
+
+
+
+2007-07-05T14:15:44.000000Z
+2fc34d6c45df8338c3da7d3f48c6d4b3
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+.cvsignore
+file
+
+
+
+
+2007-07-05T14:15:44.000000Z
+366655504d659bf1dc67a12b94460971
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+build.xml
+file
+
+
+
+
+2007-07-05T14:15:44.000000Z
+71f92b0c548674e2f5e7033f9162355e
+2007-05-24T20:41:03.741451Z
+18
+diego
+

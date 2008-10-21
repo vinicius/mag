@@ -1,0 +1,23 @@
+package clusterManagement;
+
+/**
+ *	Generated from IDL interface "ApplicationRepository"
+ *	@author JacORB IDL compiler V 2.2.3, 10-Dec-2005
+ */
+
+
+public interface ApplicationRepositoryOperations
+{
+	/* constants */
+	/* operations  */
+	void createDirectory(java.lang.String directoryName) throws clusterManagement.InvalidPathNameException,clusterManagement.DirectoryCreationException,clusterManagement.SecurityException;
+	void removeDirectory(java.lang.String directoryName) throws clusterManagement.InvalidPathNameException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException,clusterManagement.DirectoryNotEmptyException;
+	dataTypes.ContentDescription[] listDirectoryContents(java.lang.String directoryName) throws clusterManagement.InvalidPathNameException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException;
+	void registerApplication(java.lang.String basePath, java.lang.String applicationName) throws clusterManagement.InvalidPathNameException,clusterManagement.DirectoryCreationException,clusterManagement.ApplicationRegistrationException,clusterManagement.SecurityException;
+	void unregisterApplication(java.lang.String basePath, java.lang.String applicationName) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException,clusterManagement.DirectoryNotEmptyException;
+	dataTypes.ApplicationDescription getApplicationDescription(java.lang.String basePath, java.lang.String applicationName) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException;
+	void uploadApplicationBinary(dataTypes.BinaryDescription binaryDescription, byte[] binaryCode) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.BinaryCreationException,clusterManagement.DirectoryNotFoundException;
+	void deleteApplicationBinary(java.lang.String basePath, java.lang.String applicationName, java.lang.String binaryName) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException,clusterManagement.BinaryNotFoundException;
+	byte[] getApplicationBinary(java.lang.String basePath, java.lang.String applicationName, java.lang.String binaryName) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException,clusterManagement.BinaryNotFoundException,clusterManagement.FileIOException;
+	byte[] getRemoteApplicationBinary(java.lang.String basePath, java.lang.String applicationName, java.lang.String binaryName, java.lang.String applicationRepositoryIor) throws clusterManagement.InvalidPathNameException,clusterManagement.ApplicationNotFoundException,clusterManagement.SecurityException,clusterManagement.DirectoryNotFoundException,clusterManagement.BinaryNotFoundException,clusterManagement.FileIOException;
+}

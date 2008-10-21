@@ -1,0 +1,83 @@
+#ifndef AppInfoHolder_HPP
+#define AppInfoHolder_HPP
+
+#include <vector>
+#include <set>
+#include <string>
+
+using std::string;
+using std::set;
+using std::vector;
+
+#include <iostream> //FIXME REMOVE: For debugging only
+using std::cout;
+using std::endl;
+
+  class AppInfoHolder{
+
+    private:
+
+      //FIXME: Check if we need requesting ASCT IOR here
+      unsigned int pid_;
+      string asctApplicationId_;      
+      string applicationId_;
+      string processId_;
+      // string replicaId_; // Vinicius
+      class AsctStub *asctStub_;
+      vector<string> outputFiles_;
+      double startTime_;
+      int restartId_; 
+
+
+    public:
+
+      AppInfoHolder(){}
+      AppInfoHolder(unsigned int pid,
+                    const string & asctApplicationId,
+                    const string & applicationId,
+                    const string & processId,
+                    // const string & replicaId, // Vinicius
+                    class AsctStub * asctStub,
+                    const vector<string> &  outputFiles,
+                    const double startTime):pid_(pid),
+                                            asctApplicationId_(asctApplicationId),
+                                            applicationId_(applicationId),
+                                            processId_(processId),
+                                            // replicaId_(replicaId), // Vinicius
+                                            asctStub_(asctStub),
+                                            outputFiles_(outputFiles),
+                                            startTime_(startTime), 
+                                            restartId_(0) {}
+
+      void addOutputFile(string filename){ outputFiles_.push_back(filename); }
+      
+      void setPid(int pid) {pid_ = pid;};
+      void setRestartId(int restartId) {restartId_ = restartId;};
+
+      int restartId() const{ return restartId_; }
+      int pid() const{ return pid_; }
+      const double & startTime() const{ return startTime_; }         
+      const string & asctApplicationId() const{ return asctApplicationId_; }
+      const string & applicationId() const{ return applicationId_; }
+      const string & processId() const{ return processId_; }
+      // const string & replicaId() const{ return replicaId_; } // Vinicius
+      class AsctStub * asctStub() const{ return asctStub_; }
+      const vector<string> & outputFiles() const{ return outputFiles_; }
+
+
+      void dump() const{
+        cout << "Dumping AppInfoHolder: " << endl
+             << "applicationId: " << applicationId_ << endl
+             << "processId: " << processId_ << endl
+             // << "replicaId: " << replicaId_ << endl // Vinicius
+             << "pid: " << pid_ << endl   << endl
+             << "output files: ";
+        for(unsigned int i = 0; i < outputFiles_.size(); i ++)
+          cout << outputFiles_[i] << " ";
+        cout << endl;
+
+      }
+  };//class
+
+#endif//AppInfoHolder_HPP
+

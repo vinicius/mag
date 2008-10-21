@@ -1,0 +1,58 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/clusterManagement/grm
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-26T01:02:32.975989Z
+21
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+src
+dir
+
+jacorb.properties
+file
+
+
+
+
+2007-07-05T14:15:57.000000Z
+deaee2e15696dad7a309d60c93e7d87a
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+launchTrader
+dir
+
+build.xml
+file
+
+
+
+
+2007-07-05T14:15:57.000000Z
+648264a3d489be73761833f5a867626d
+2007-05-24T20:41:03.741451Z
+18
+diego
+

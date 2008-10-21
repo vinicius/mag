@@ -1,0 +1,64 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/examples/regular/GVC/web/pages
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+menu.jsp
+file
+
+
+
+
+2007-07-05T14:15:50.000000Z
+38c0db33bfd4c58767f650bf989a20d2
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+home.jsp
+file
+
+
+
+
+2007-07-05T14:15:50.000000Z
+164e7f1b30696babeb88d7b81183ba8b
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+admin
+dir
+
+common
+dir
+
+login
+dir
+
+user
+dir
+

@@ -1,0 +1,137 @@
+<?xml version="1.0"?>
+
+
+
+<project name="AsctGui" default="all" basedir=".">
+
+    <property environment="env"/>
+    <property name="jacorb.home" value="${env.JACORB_HOME}"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="arsc.dir" value="../../shared/arsc/java/"/>
+    <property name="arsm.dir" value="../../clusterManagement/arsm/"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+    <property name="doc.dir" value="${basedir}/doc"/>
+    <property name="javadoc.dir" value="${doc.dir}/javadoc"/>
+
+
+  <!-- =================================================================== -->
+  <!-- Creates Directories                                                 -->
+  <!-- =================================================================== -->
+
+  <target name="prepare" >
+    <mkdir dir="${classes.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Create runit helper script                                          -->
+  <!-- =================================================================== -->
+
+  <target name="makeRunit" depends="prepare">
+    <echo file="${classes.dir}/runit"
+          message="jaco  -Djava.security.krb5.conf=/etc/krb5.conf -Djavax.security.auth.useSubjectCredsOnly=false -Djava.security.auth.login.config=arscLogin.conf asct.ui.Asct"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles ResourceManagement.idl                                     -->
+  <!-- =================================================================== -->
+
+  <target name="rmIdl">
+    <exec dir="${src.dir}" executable="${jacorb.home}/bin/idl">
+      <arg line="../../../shared/idls/ResourceManagement.idl"/>
+    </exec>
+  </target>
+ <!-- =================================================================== -->
+  <!-- Compiles SecureApp.idl                                             -->
+  <!-- =================================================================== -->
+
+  <target name="secIdl">
+    <exec dir="${src.dir}" executable="${jacorb.home}/bin/idl">
+      <arg line="../../../shared/idls/Arsm.idl"/>
+    </exec>
+  </target>
+
+
+  <!-- =================================================================== -->
+  <!-- Compiles ApplicationRepository.idl                                  -->
+  <!-- =================================================================== -->
+
+  <target name="arIdl">
+    <exec dir="${src.dir}" executable="${jacorb.home}/bin/idl">
+      <arg line="../../../shared/idls/ApplicationRepository.idl"/>
+    </exec>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compile IDL generated classes                                       -->
+  <!-- =================================================================== -->
+  <target name="all" depends="secIdl,rmIdl, arIdl, makeRunit, compile">
+  </target> 
+
+  <!-- =================================================================== -->
+  <!-- Compile IDL generated classes                                       -->
+  <!-- =================================================================== -->
+  <target name="compile">
+  <echo message="Sources: ${src.dir}"/>
+  <echo message="Dest   : ${classes.dir}"/>
+  <javac 
+	  srcdir="${src.dir}"
+          destdir="${classes.dir}"
+          debug="on"
+          deprecation="on"
+          optimize="off"
+          includes="**/*.java"
+          classpath="${basedir}:${jacorb.home}/lib/jacorb.jar"
+	  sourcepath="${arsc.dir}/src:${arsm.dir}/src"
+  >
+  </javac>
+  <copy file="jacorb.properties" todir="${classes.dir}"/>
+  <copy file="asct.conf" todir="${classes.dir}"/>
+  <copy file="arsc.conf" todir="${classes.dir}"/>
+  <copy file="arscLogin.conf" todir="${classes.dir}"/>
+  <copy file="asct.conf" todir="${classes.dir}"/>
+  <copy todir="${classes.dir}/images">
+    <fileset dir="images"/>
+  </copy>
+  <copy file="${arsc.dir}/images/logon.jpg" todir="${classes.dir}/images"/>
+  <chmod file="${classes.dir}/runit" perm="755"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleanup                                                             -->
+  <!-- =================================================================== -->
+
+  <target name="clean" >
+    <!-- Deletes all .class -->
+    <delete dir="${classes.dir}"/>
+    <!--Deletes IDL generated source files -->
+    <delete includeEmptyDirs="true">
+      <fileset dir="${src.dir}"> 
+        <exclude name="asct/**"/>
+      </fileset>
+    </delete>
+    <delete dir="${doc.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepare to generate documentation                                   -->
+  <!-- =================================================================== -->
+
+  <target name="preparedoc" depends="secIdl,rmIdl, arIdl">
+    <mkdir dir="${doc.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Generates Javadoc                                                   -->
+  <!-- =================================================================== -->
+
+  <target name="javadoc" depends="preparedoc">
+    <mkdir dir="${javadoc.dir}"/>
+    <javadoc destdir="./doc/javadoc"
+              classpath=".:types:interfaces:${jacorb.home}/lib/jacorb.jar">
+      <fileset dir="${src.dir}"
+                includes="**/*.java"/>
+    </javadoc>
+  </target>
+
+</project>
+

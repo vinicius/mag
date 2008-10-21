@@ -1,0 +1,43 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src/core/appexec/magagent
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-26T01:22:34.197911Z
+22
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+MagAgent.java
+file
+
+
+
+
+2007-08-08T20:59:59.000000Z
+53b973ebfb7238715df3edb1fe3a9659
+2007-05-26T01:22:34.197911Z
+22
+diego
+
+behaviours
+dir
+

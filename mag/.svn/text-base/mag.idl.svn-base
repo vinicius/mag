@@ -1,0 +1,227 @@
+module subsubtypes {
+  typedef sequence<string> FileNameSeq; ///< A sequence of filenames
+  typedef sequence<octet> File;         ///< A file, represented as a binary stream
+ 
+};
+
+
+
+module subtypes {
+ enum ApplicationType { regular, parametric, bsp, restart };
+  ///
+  /// Struct FileStruct - Represents a File with its associated filename
+  ///
+  struct FileStruct{
+    string filename;
+    subsubtypes::File file;
+  };
+
+
+    ///
+    /// Struct AsctRequestId - a request ID as issued by the grid client(ASCT)
+    ///
+    struct AsctRequestId{
+      string appMainRequestId; ///< The ID of the requested application
+      string appNodeRequestId; ///< The ID of ONE of the nodes of the requested application
+    };
+
+    ///
+    /// Struct AppRequeriments - Represents the execution requeriments of an application
+    ///
+    struct AppRequeriments{
+      string applicationConstraints;
+      string applicationPreferences;
+    };
+    
+     struct ApplicationParam{
+       string appId; 
+       string appExecutionId;
+       string appName;
+       string appConstraints;
+       string appPreferences ;
+       string appArgs;
+       string appType;
+       subsubtypes::FileNameSeq inputFiles;
+       subsubtypes::FileNameSeq outputFiles;  
+   }; 
+   
+   struct ApplicationStateInfo{
+       string appExecutionId;
+       string appName;
+       string state;
+       string initialTimestamp;
+       string finishTimestamp;
+    };
+
+};
+
+
+
+
+module types {
+	typedef sequence<subtypes::FileStruct> FileSeq;
+    typedef sequence<subtypes::AppRequeriments> AppRequerimentsSeq;
+    typedef sequence<subtypes::ApplicationStateInfo> ApplicationStateInfoSeq;
+   
+    ///
+    ///Struct CommonExecutionSpecs - Contains details that applies to all nodes of a given
+    ///application, be it sequential, Bag-Of-Tasks, or BSP
+    ///
+    struct CommonExecutionSpecs{
+      subtypes::ApplicationType appType;  /// The type of the application
+      string requestingAsctIor;      ///< IOR of the ASCT which originated the request
+      string grmIor;                 ///< FIXME: Should we drop it, cos we only have one GRM?
+      string applicationId;          ///< a unique identifier used to fetch the application
+                                     ///    from an Application Repository
+      string applicationConstraints; ///< Constraints that should be applied to execution
+                                     /// (e.g. platform, amount of memory, etc...)
+      string applicationPreferences; ///< Preferences that should be applied when looking
+                                     ///    for a host to the application
+      string deniedExecution;        ///< List of LRMs which refused to execute the application
+      subsubtypes::FileNameSeq appIds; ///< List of avaiable binary files (Ids) to fetch the application
+                                       ///  from an Application Repository (vidal:18/02/2005)
+      boolean isExecuteApp;           ///< TRUE if the user request Execute all binary FALSE otherwise
+    };
+
+    ///
+    ///Struct DistinctExecutionSpecs - Contains information that apply to ONE SPECIFIC node
+    ///of a given application, be it sequential, Bag-Of-Tasks, or BSP
+    ///
+    struct DistinctExecutionSpecs{
+      subtypes::AsctRequestId asctRequestId;///< The ID of the request, as issued by the grid
+                                            ///  client (ASCT)
+      string applicationArgs;               ///< The application arguments
+      subsubtypes::FileNameSeq outputFiles; ///< The application output files names
+    };
+};
+
+
+
+
+module interfaces {
+	interface AgentHandler {
+		///
+		/// Method responsible for unregister an agent from
+		/// an AgentHandler.
+	        ///
+	        /// @param appId - the id of the finished application
+		///		
+		void unregisterAgent (in string appId);
+	
+		///
+		/// Method used to request an application execution
+		///
+		long remoteExecutionRequest (in types::CommonExecutionSpecs commonSpecs,
+					     in types::DistinctExecutionSpecs distinctSpecs);
+
+		// Methor used to request restore application
+		void restoreExecution (in types::CommonExecutionSpecs commonSpecs,
+				       in types::DistinctExecutionSpecs distinctSpecs);	
+		///
+		/// Method invoked by LRM to release a grid node
+		///
+		void releaseNode ();
+	        
+	        ///
+	        ///Return an application's output files
+	        ///
+	        /// @param appId - the ID of the application which files should be returned
+	        ///
+		types::FileSeq requestOutputFiles(in string appExecutionId);
+
+	        ///
+	        /// Kills an application
+	        ///
+	        /// @param appId - id of the application which will be killed
+	        ///
+	        void kill(in string appExecutionId);
+	};
+
+      interface ExecutionManagementAgent{
+          ///
+          /// Request  the parameter of application
+          ///
+          /// @param asctRequestId - the application's identification
+          /// @return - Information about parameter of application 
+          subtypes::ApplicationParam getApplicationParam(in subtypes::AsctRequestId asctRequestId);
+
+          ///
+          /// Request the state of application
+          ///
+          /// @param user - the user id
+          /// @return - Information about application execution
+        //  types::ApplicationStateInfoSeq getApplicationsStateInfo(in string user);
+  
+
+          void acceptedExecutionRequestNotification(in string source, in string appName,
+						    in types::CommonExecutionSpecs commonExecutionSpecs,
+						    in types::DistinctExecutionSpecs distinctExecutionSpecs,
+						    in subsubtypes::FileNameSeq inputFiles, in string userName);
+
+
+
+          ///
+          /// Request  a input file of application
+          ///
+          /// @param asctRequestId - the application's identification
+          /// @param name - the input file name
+          /// @return - the content of the file
+          subtypes::FileStruct  getInputFile(in subtypes::AsctRequestId asctRequestId, in string name);
+          
+          ///
+          /// Request  a output file of application
+          ///
+          /// @param asctRequestId - the application's identification
+          /// @param name - the input file name
+          /// @return - the content of the file
+          subtypes::FileStruct  getOutputFile(in subtypes::AsctRequestId asctRequestId, in string name);
+
+          void refusedExecutionRequestNotification(in subtypes::AsctRequestId id);
+          boolean removeExecResults(in subtypes::AsctRequestId id);
+         
+           void recoverHost(in string host);
+         
+           void killApplication(in string appExecId);
+      };
+
+      interface Sam{
+          ///
+          /// Register a user
+          ///
+          /// @param userName- the user id
+          /// @param password - the user's password
+
+         long register(in string userName, in string password); 
+         
+          ///
+          /// Unregister a user
+          ///
+          /// @param userName- the user id
+         long unregister(in string userName); 
+         
+          ///
+          /// Autenticate a user
+          ///
+          /// @param user - the user id
+          /// @param password - the user's password
+          /// @return - tru or false
+          boolean autenticate(in string userName, in string password); 
+          
+          ///
+          /// Get all  registred user 
+          ///
+          /// @param user - the user id
+          /// @param password - the user's password
+          /// @return - tru or false
+          subsubtypes::FileNameSeq getAllUserRegistred();
+          
+           ///
+          /// Update the user' password
+          ///
+          /// @param user - the username
+          /// @param password - the  new user password
+          /// @return - error return code: 0 - sucess | 1 - user already exists | 2 - internal error
+          
+          long updatePassword(in string user, in string password);
+       };
+};

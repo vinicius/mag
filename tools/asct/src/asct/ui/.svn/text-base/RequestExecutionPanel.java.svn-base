@@ -1,0 +1,661 @@
+package asct.ui;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.CardLayout;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JPanel;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+
+import javax.swing.JScrollPane;
+import javax.swing.DefaultListModel;
+import javax.swing.ListSelectionModel;
+import javax.swing.JList;
+import javax.swing.border.TitledBorder;
+import javax.swing.JOptionPane;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.FileOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.FileInputStream;
+
+import java.util.ArrayList;
+import java.util.StringTokenizer;
+
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+
+import javax.swing.JRadioButton;
+import javax.swing.ButtonGroup;
+import javax.swing.JDialog;
+
+import asct.core.ApplicationControlFacade;
+import asct.shared.ExecutionRequestData;
+import asct.shared.ExecutionRequestStatus;
+import asct.shared.ParametricCopyHolder;
+
+import clusterManagement.ApplicationNotFoundException;
+import clusterManagement.ApplicationRegistrationException;
+import clusterManagement.DirectoryCreationException;
+import clusterManagement.DirectoryNotFoundException;
+import clusterManagement.InvalidPathNameException;
+import clusterManagement.SecurityException;
+import dataTypes.ApplicationType;
+
+import java.awt.Container;
+
+/**
+ * RequestExecutionPanel - Allows a user to choose the application type and
+ * configure the execution details.
+ * 
+ * @author Andrei Goldchleger
+ * @date February/2004
+ */
+class RequestExecutionPanel extends JPanel {
+
+	private static final int INPUT_STRING_SIZE = (new String("inputFile"))
+			.length();
+
+	private static final int OUTPUT_STRING_SIZE = (new String("outputFile"))
+			.length();
+
+	private static final int APP_CONSTR_STRING_SIZE = (new String(
+			"appConstraints")).length();
+
+	private static final int APP_PREFS_STRING_SIZE = (new String(
+			"appPreferences")).length();
+
+	private static final int APP_ARGS_STRING_SIZE = (new String("appArgs"))
+			.length();
+
+	private JButton submitButton;
+
+	private JButton cancelButton;
+
+	private JRadioButton regularButton;
+
+	private JRadioButton bspButton;
+
+	private JRadioButton parametricButton;
+
+	private JRadioButton lastSelectedButton;
+
+	RegularPanel regularPanel;
+
+	BspPanel bspPanel;
+
+	ParametricPanel parametricPanel;
+
+	JPanel middleBottomPanel;
+
+	MultiOptionHolder optionHolder;
+
+	private JButton loadButton;
+
+	private JButton saveButton;
+
+	String lastSelectedDir;
+
+	// Constructor-------------------------------------------------------
+	RequestExecutionPanel(String applicationName_, String applicationBasePath_, String applicationBinaries) {//
+
+		lastSelectedDir = ".";
+
+		optionHolder = new MultiOptionHolder();
+
+		optionHolder.addOption("Name: ");
+		optionHolder.setValue("Name: ", applicationName_);
+		optionHolder.toggleField("Name: ", false);
+		optionHolder.addOption("Base path: ");
+		if (!applicationBasePath_.equals("")) {
+			optionHolder.setValue("Base path: ", applicationBasePath_);
+			optionHolder.toggleField("Base path: ", false);
+		}
+		optionHolder.addOption("Binaries: ");
+		if (!applicationBasePath_.equals("")) {
+			optionHolder.setValue("Binaries: ", applicationBinaries);
+			optionHolder.toggleField("Binaries: ", false);
+		}
+		optionHolder.addOption("Constraints: ");
+		optionHolder.addOption("Preferences: ");
+
+		// Radio
+		// buttons--------------------------------------------------------------
+		JPanel radioPanel = new JPanel();// new GridLayout(0,4)
+		regularButton = new JRadioButton("Regular");
+		bspButton = new JRadioButton("BSP");
+		parametricButton = new JRadioButton("Parametric");
+		radioPanel.add(new JLabel("Application type: "));
+		radioPanel.add(regularButton);
+		radioPanel.add(bspButton);
+		radioPanel.add(parametricButton);
+		ButtonGroup group = new ButtonGroup();
+		group.add(regularButton);
+		group.add(bspButton);
+		group.add(parametricButton);
+		regularButton.setSelected(true);
+		lastSelectedButton = regularButton;
+
+		regularButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				switchPanel();
+			}
+		});
+		bspButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				switchPanel();
+			}
+		});
+
+		parametricButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				switchPanel();
+			}
+		});
+
+		// Load/Save---------------------------------------------------------------
+
+		loadButton = new JButton("Load");
+		saveButton = new JButton("save");
+		loadButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				readExecDescriptor();
+			}
+		});
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				writeExecDescriptor();
+			}
+		});
+
+		JPanel execDescPanel = new JPanel();
+		execDescPanel.add(new JLabel("Execution descriptor: "));
+		execDescPanel.add(loadButton);
+		execDescPanel.add(saveButton);
+
+		regularPanel = new RegularPanel();
+		bspPanel = new BspPanel();
+		parametricPanel = new ParametricPanel();
+
+		JPanel middlePanel = new JPanel(new BorderLayout());
+		middlePanel.add(radioPanel, BorderLayout.NORTH);
+
+		middleBottomPanel = new JPanel(new CardLayout());
+		middleBottomPanel.add("regular", regularPanel);
+		middleBottomPanel.add("bsp", bspPanel);
+		middleBottomPanel.add("parametric", parametricPanel);
+		((CardLayout) middleBottomPanel.getLayout()).show(middleBottomPanel,
+				"regular");
+
+		middlePanel.add(middleBottomPanel, BorderLayout.CENTER);
+
+		// Submit/Cancel Buttons
+		JPanel bottonPanel = new JPanel();
+		bottonPanel.setLayout(new GridLayout(0, 2));
+		submitButton = new JButton("Submit");
+		cancelButton = new JButton("Cancel");
+		cancelButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Container rootContainer = getTopLevelAncestor();
+				if (rootContainer instanceof JDialog)
+					((JDialog) rootContainer).dispose();
+			}
+		});
+		submitButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ExecutionRequestStatus requestStatus;		
+					requestStatus = ASCTController.getInstance().executeApplication(getApplicationBasePath(),getApplicationName(),
+							getApplicationArguments(),getApplicationConstraints(),getApplicationPreferences(),getApplicationType(),
+							getApplicationBinaries(),getInputFiles(),getOutputFiles(),getCopies(), getTaskNum(),
+							shouldForceDifferentMachines());
+					ExecutingApplicationsPanel callerPanel = ((RequestExecutionDialog) getTopLevelAncestor())
+					.getCallerPanel();
+					callerPanel.addItem(requestStatus);
+				} catch (ApplicationNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (DirectoryNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (InvalidPathNameException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SecurityException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Container rootContainer = getTopLevelAncestor();
+				if (rootContainer instanceof JDialog)
+					((JDialog) rootContainer).dispose();
+			}
+		});
+		bottonPanel.add(submitButton);
+		bottonPanel.add(cancelButton);
+
+		// final assembly
+		this.setLayout(new BorderLayout());
+
+		JPanel topPanel = new JPanel(new BorderLayout());
+		topPanel.add(execDescPanel, BorderLayout.NORTH);
+		topPanel.add(optionHolder, BorderLayout.SOUTH);
+
+		this.add(topPanel, BorderLayout.NORTH);
+		this.add(middlePanel, BorderLayout.CENTER);
+		this.add(bottonPanel, BorderLayout.SOUTH);
+		this.setVisible(true);
+	}
+
+	// --------------------------------------------------------------------
+	private void switchPanel() {
+
+		if (regularButton.isSelected())
+			((CardLayout) middleBottomPanel.getLayout()).show(
+					middleBottomPanel, "regular");
+		else if (bspButton.isSelected())
+			((CardLayout) middleBottomPanel.getLayout()).show(
+					middleBottomPanel, "bsp");
+		else if (parametricButton.isSelected())
+			((CardLayout) middleBottomPanel.getLayout()).show(
+					middleBottomPanel, "parametric");
+
+	}
+
+	// --------------------------------------------------------------------
+
+	public String getApplicationName() {
+		return optionHolder.getValue("Name: ");
+	}
+
+	public String getApplicationBasePath() {
+		return optionHolder.getValue("Base path: ");
+	}
+
+	public String getApplicationConstraints() {
+		return optionHolder.getValue("Constraints: ");
+	}
+
+	public String getApplicationPreferences() {
+		return optionHolder.getValue("Preferences: ");
+	}
+
+	public String getApplicationBinaries() {
+		return optionHolder.getValue("Binaries: ");
+	}
+	
+	public JButton submitButton() {
+		return submitButton;
+	}
+
+	public JButton cancelButton() {
+		return cancelButton;
+	}
+	public ApplicationType getApplicationType(){
+		if (regularButton.isSelected()) return ApplicationType.regular;
+		else if (bspButton.isSelected()) return ApplicationType.bsp;
+		else if (parametricButton.isSelected()) return ApplicationType.parametric;
+		//TODO: Create an Exception to throw, instead of return null
+		else return null;
+	}
+	public String getApplicationArguments() {
+		if (regularButton.isSelected())
+			return regularPanel.appArgs();
+		else if (bspButton.isSelected())
+			return bspPanel.appArgs();
+		return "";
+	}
+
+	public String[] getOutputFiles() {
+		if (regularButton.isSelected()) {
+			return regularPanel.outputFiles();
+		} else if (bspButton.isSelected()) {
+			return bspPanel.outputFiles();
+		} else
+			return new String[] {};
+	}
+
+	public boolean shouldForceDifferentMachines() {
+		if (parametricButton.isSelected())
+			return parametricPanel.shouldForceDifferentMachines();
+		if (bspButton.isSelected())
+			return bspPanel.shouldForceDifferentMachines();
+		return false;
+	}
+
+	public boolean isRegular() {
+		return regularButton.isSelected();
+	}
+
+	public boolean isBsp() {
+		return bspButton.isSelected();
+	}
+
+	public boolean isParametric() {
+		return parametricButton.isSelected();
+	}
+
+	// ---------------------------------------------------------------------------
+	public String[] getInputFiles() {
+
+		if (regularButton.isSelected())
+			return regularPanel.inputFiles();
+		else if (bspButton.isSelected())
+			return bspPanel.inputFiles();
+		else
+			return new String[] {};
+	}
+
+	// ---------------------------------------------------------------------------
+	public int getTaskNum() {
+
+		if (bspButton.isSelected())
+			return bspPanel.taskNum();
+		return 0;
+
+	}
+
+	// ---------------------------------------------------------------------------
+	public ParametricCopyHolder[] getCopies() {
+
+		if (parametricButton.isSelected())
+			return parametricPanel.getCopies();
+		return new ParametricCopyHolder[]{};
+
+	}
+
+	// Reset Fields. Called when loading an Execution Descriptor.
+	private void reset() {
+		optionHolder.setValue("Name: ", "");
+		optionHolder.setValue("Base path: ", "");
+		optionHolder.setValue("Constraints: ", "");
+		optionHolder.setValue("Preferences: ", "");
+	}
+
+	// ---------------------------------------------------------------------------
+	private void readExecDescriptor() {
+
+		JFileChooser fileChooser = new JFileChooser(".");
+		fileChooser.setDialogTitle("Load Descriptor");
+		fileChooser.setApproveButtonText("Load");
+		if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		BufferedReader descFile = null;
+		try {
+			descFile = new BufferedReader((new InputStreamReader(
+					new FileInputStream(fileChooser.getSelectedFile()
+							.getAbsolutePath()))));
+		} catch (FileNotFoundException fnfe) {
+			Object[] options = new Object[] { "Dismiss" };
+			JOptionPane.showOptionDialog(this, "File Not Found: \n"
+					+ fileChooser.getSelectedFile().getPath() + "\n",
+					"File Not Found", JOptionPane.OK_OPTION,
+					JOptionPane.ERROR_MESSAGE, null,// default icon
+					options, options[0]);
+		}
+
+		boolean isRegular = false;
+		boolean isParametric = false;
+		boolean isBsp = false;
+
+		// Clearing all panels
+		this.reset();
+		parametricPanel.reset();
+		bspPanel.reset();
+		regularPanel.reset();
+
+		while (true) {
+
+			String line = null;
+			try {
+				line = descFile.readLine();
+			} catch (IOException fnfe) {
+				System.err
+						.println("RequestExecutionPanel::readExecDescriptor-->> IO error");
+				System.exit(-1);
+			}
+
+			if (line == null)
+				break;
+			StringTokenizer st = new StringTokenizer(line);
+			if (st.hasMoreTokens()) {
+				String option = st.nextToken();
+				// Parsing appType-----------------------------
+				if (option.equals("appType")) {
+					if (st.hasMoreTokens()) {
+						String appType = st.nextToken();
+						if (appType.equals("BSP")) {
+							isBsp = true;
+							bspButton.doClick();
+						} else if (appType.equals("PARAMETRIC")) {
+							isParametric = true;
+							parametricButton.doClick();
+						} else if (appType.equals("REGULAR")) {
+							isRegular = true;
+							regularButton.doClick();
+						}
+					}
+				}
+				// Parsing ApplicationName------------------------------------
+				else if (option.equals("appName")) {
+					if (st.hasMoreTokens())
+						optionHolder.setValue("Name: ", st.nextToken());
+				}
+				// Parsing applicationBasePath--------------------------------------
+				else if (option.equals("applicationBasePath")) {
+					if (st.hasMoreTokens()) {
+						optionHolder.setValue("Base path: ", st.nextToken());
+						optionHolder.toggleField("Base path: ", true);
+					}
+				}
+				else if (option.equals("binaries")) {
+					if (st.hasMoreTokens()) {
+						optionHolder.setValue("Binaries: ", st.nextToken());
+						optionHolder.toggleField("Binaries: ", false);
+					}
+				}
+				// Parsing appConstraints-----------------------------
+				else if (option.equals("appConstraints")) {
+					if (st.hasMoreTokens())
+						optionHolder.setValue("Constraints: ", line
+								.substring(APP_CONSTR_STRING_SIZE + 1));
+				}
+				// Parsing appPreferences-----------------------------
+				else if (option.equals("appPreferences")) {
+					if (st.hasMoreTokens())
+						optionHolder.setValue("Preferences: ", line
+								.substring(APP_PREFS_STRING_SIZE + 1));
+				}
+				// Parsing appArgs------------------------------------
+				else if (option.equals("appArgs")) {
+					if (st.hasMoreTokens())
+						if (isRegular)
+							regularPanel.appArgs(line
+									.substring(APP_ARGS_STRING_SIZE + 1));
+						else if (isBsp)
+							bspPanel.appArgs(line
+									.substring(APP_ARGS_STRING_SIZE + 1));
+				}
+				// Parsing taskNum------------------------------------
+				else if (option.equals("taskNum")) {
+					if (st.hasMoreTokens())
+						if (isBsp)
+							bspPanel.taskNum(st.nextToken());
+				}
+				// Parsing inputFile------------------------------------
+				else if (option.equals("inputFile")) {
+					String filename = line.substring(INPUT_STRING_SIZE + 1);
+					if (isRegular)
+						regularPanel.addInputFile(filename);
+					else if (isBsp)
+						bspPanel.addInputFile(filename);
+				}
+				// Parsing outputFile------------------------------------
+				else if (option.equals("outputFile")) {
+					String filename = line.substring(OUTPUT_STRING_SIZE + 1);
+					if (isRegular)
+						regularPanel.addOutputFile(filename);
+					else if (isBsp)
+						bspPanel.addOutputFile(filename);
+				}
+				// Parsing appCopy------------------------------------
+				else if (option.equals("appCopy")) {
+					if (isParametric) {
+						ParametricCopyHolder copyHolder = new ParametricCopyHolder();
+						ArrayList tmpInputFiles = new ArrayList();
+						ArrayList tmpOutputFiles = new ArrayList();
+						while (true) {
+
+							String newLine = null;
+							try {
+								newLine = descFile.readLine();
+							} catch (IOException fnfe) {
+								System.err
+										.println("RequestExecutionPanel::readExecDescriptor-->> IO error");
+								System.exit(-1);
+							}
+							if (newLine == null)
+								break;
+							StringTokenizer newSt = new StringTokenizer(newLine);
+							if (newSt.hasMoreTokens()) {
+								String newOption = newSt.nextToken();
+								if (newOption.equals("appArgs")) {
+									if (newSt.hasMoreTokens())
+										copyHolder
+												.setArguments(newLine
+														.substring(APP_ARGS_STRING_SIZE + 1));
+								}
+								// Parsing
+								// inputFile------------------------------------
+								else if (newOption.equals("inputFile")) {
+									String filename = newLine
+											.substring(INPUT_STRING_SIZE + 1);
+									tmpInputFiles.add(filename);
+								}
+								// Parsing
+								// outputFile------------------------------------
+								else if (newOption.equals("outputFile")) {
+									String filename = newLine
+											.substring(OUTPUT_STRING_SIZE + 1);
+									tmpOutputFiles.add(filename);
+								} else if (newOption.equals("endCopy")) {
+									String[] inputFilesArray = new String[tmpInputFiles
+											.size()];
+									String[] outputFilesArray = new String[tmpOutputFiles
+											.size()];
+									tmpInputFiles.toArray(inputFilesArray);
+									tmpOutputFiles.toArray(outputFilesArray);
+									copyHolder.setInputFiles(inputFilesArray);
+									copyHolder.setOutputFiles(outputFilesArray);
+									parametricPanel.addCopy(copyHolder);
+									break;
+								}
+							}// if(newSt.hasMoreTokens())
+						}// while(true)
+					}// if(isParametric)
+				}// else if(option.equals("appCopy"))
+			}// if(st.hasMoreTokens())
+		}// while(true)
+		try {
+			descFile.close();
+		} catch (IOException fnfe) {
+			System.err
+					.println("RequestExecutionPanel::readExecDescriptor-->> IO error");
+			System.exit(-1);
+		}
+	}// Method
+
+	// ---------------------------------------------------------------------------
+	private void writeExecDescriptor() {
+
+		JFileChooser fileChooser = new JFileChooser(".");
+		fileChooser.setDialogTitle("Save Descriptor");
+		fileChooser.setApproveButtonText("Save");
+		if (fileChooser.showOpenDialog(this) != JFileChooser.APPROVE_OPTION)
+			return;
+
+		PrintWriter descFile = null;
+		try {
+			descFile = new PrintWriter(new FileOutputStream(new File(
+					fileChooser.getSelectedFile().getAbsolutePath())));
+		} catch (FileNotFoundException fnfe) {
+			Object[] options = new Object[] { "Dismiss" };
+			JOptionPane.showOptionDialog(this, "File Not Found: \n"
+					+ fileChooser.getSelectedFile().getPath() + "\n",
+					"File Not Found", JOptionPane.OK_OPTION,
+					JOptionPane.ERROR_MESSAGE, null,// default icon
+					options, options[0]);
+		}
+		// Writing appType-------------------------------------------------
+		descFile.print("appType ");
+		if (regularButton.isSelected())
+			descFile.println("REGULAR");
+		else if (bspButton.isSelected())
+			descFile.println("BSP");
+		else if (parametricButton.isSelected())
+			descFile.println("PARAMETRIC");
+		// Writing appName-------------------------------------------------
+		String appName = optionHolder.getValue("Name: ");
+		if (!appName.equals(""))
+			descFile.println("appName " + appName);
+		// Writing applicationBasePath-------------------------------------------------
+		descFile.println("applicationBasePath " + optionHolder.getValue("Base path: "));
+		// Writing binaries-------------------------------------------------		
+		descFile.println("binaries " + optionHolder.getValue("Binaries: "));
+		// Writing appConstraints--------------------------------------
+		descFile.println("appConstraints "
+				+ optionHolder.getValue("Constraints: "));
+		// Writing appPreferences--------------------------------------
+		descFile.println("appPreferences "
+				+ optionHolder.getValue("Preferences: "));
+		// Writing taskNum & appArgs & NeededFiles------------------------
+		if (bspButton.isSelected()) {
+			descFile.println("taskNum " + bspPanel.taskNum());
+			descFile.println("appArgs " + bspPanel.appArgs());
+			String[] inputFilesArray = bspPanel.inputFiles();
+			for (int i = 0; i < inputFilesArray.length; i++)
+				descFile.println("inputFile " + inputFilesArray[i]);
+			String[] outputFilesArray = bspPanel.outputFiles();
+			for (int i = 0; i < outputFilesArray.length; i++)
+				descFile.println("outputFile " + outputFilesArray[i]);
+		}
+		if (regularButton.isSelected()) {
+			descFile.println("appArgs " + regularPanel.appArgs());
+			String[] inputFilesArray = regularPanel.inputFiles();
+			for (int i = 0; i < inputFilesArray.length; i++)
+				descFile.println("inputFile " + inputFilesArray[i]);
+			String[] outputFilesArray = regularPanel.outputFiles();
+			for (int i = 0; i < outputFilesArray.length; i++)
+				descFile.println("outputFile " + outputFilesArray[i]);
+		}
+		if (parametricButton.isSelected()) {
+			ParametricCopyHolder[] copies = parametricPanel.getCopies();
+			for (int i = 0; i < copies.length; i++) {
+				descFile.println("appCopy");
+				descFile.println("appArgs " + copies[i].getArguments());
+				String[] inputFilesArray = copies[i].getInputFiles();
+				for (int j = 0; j < inputFilesArray.length; j++)
+					descFile.println("inputFile " + inputFilesArray[j]);
+				String[] outputFilesArray = copies[i].getOutputFiles();
+				for (int j = 0; j < outputFilesArray.length; j++)
+					descFile.println("outputFile " + outputFilesArray[j]);
+				descFile.println("endCopy");
+			}
+		}
+
+		descFile.close();
+	}// method
+
+}// class
+

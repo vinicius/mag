@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry excluding="grm/" kind="src" path=""/>
+	<classpathentry kind="src" path="grm"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/home/pos/vinicius/programas/jade/lib/jade.jar"/>
+	<classpathentry kind="lib" path="/home/pos/vinicius/programas/jade/lib/iiop.jar"/>
+	<classpathentry kind="lib" path="/home/pos/vinicius/programas/jade/lib/jadeTools.jar"/>
+	<classpathentry kind="lib" path="/home/pub/JacORB/lib/jacorb.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/grm"/>
+	<classpathentry kind="output" path=""/>
+</classpath>

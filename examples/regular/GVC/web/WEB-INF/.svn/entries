@@ -1,0 +1,94 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/examples/regular/GVC/web/WEB-INF
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+tiles.xml
+file
+
+
+
+
+2007-07-05T14:15:53.000000Z
+08f402f3fe15208528020427c231040e
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+faces-config.xml
+file
+
+
+
+
+2007-07-05T14:15:53.000000Z
+5b64813623c45997a462f75d73ce7e61
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+struts-tiles.tld
+file
+
+
+
+
+2007-07-05T14:15:53.000000Z
+0dda02c4ce423d4a5f4353e52c121de2
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+lib
+dir
+
+web.xml
+file
+
+
+
+
+2007-07-05T14:15:53.000000Z
+3b41eb2d3feee1e44eded59d8d8c7d40
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+classes
+dir
+
+tiles-config_1_1.dtd
+file
+
+
+
+
+2007-07-05T14:15:53.000000Z
+c0fc399be182b701068fffd8b2f461a9
+2007-05-24T20:41:03.741451Z
+18
+diego
+

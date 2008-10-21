@@ -1,0 +1,192 @@
+module dataTypes {
+
+  typedef sequence<octet> Binary;   ///< Application binary data
+
+  typedef sequence<string> StringSequence;
+
+  struct ApplicationDescription {
+    string basePath;            /// the directory path starting at repository root that holds the application
+    string applicationName;     /// the application name
+    string numberOfBinaries;    /// the number of uploaded binaries for this application 
+    StringSequence binaryIds;   /// the sequence of binaryIds of uploaded binaries for this application
+  };
+
+  struct BinaryDescription {
+    string basePath;     	/// the directory path starting at repository root that holds the application
+    string applicationName;     /// the application name
+    string binaryName;          /// the binary name meaning the platform SO + Hardware  (e.g. "Linux_i686_binaryfile")
+    string description;         /// 
+  };
+
+  enum kindOfItens { applicationDirectory, commonDirectory, binaryFile, applicationDescriptionFile, rootDirectory} ;
+
+
+  struct ContentDescription {
+    string fileName;  //< FIXME: Add comment
+    kindOfItens kind;      //< FIXME: Add comment
+  };
+
+  typedef sequence<ContentDescription> ContentDescriptionSequence;
+  
+  
+};
+
+
+module clusterManagement {
+
+    exception DirectoryCreationException {
+        string myMessage;
+    };
+  
+    exception ApplicationRegistrationException {
+        string myMessage;
+    };
+    
+    exception BinaryCreationException {
+        string myMessage;
+    };
+
+    exception BinaryNotFoundException {
+        string myMessage;
+    };  
+        
+    exception DirectoryNotFoundException {
+        string myMessage;
+    };
+
+    exception ApplicationNotFoundException {
+        string myMessage;    
+    };
+
+    exception DirectoryNotEmptyException {
+        string myMessage;    
+    };
+    
+    exception InvalidPathNameException {
+        string myMessage;    
+    };
+
+    exception FileIOException {
+        string myMessage;    
+    };
+    exception SecurityException {
+        string myMessage;    
+    };
+
+    
+  ///
+  /// ApplicationRepository -  Defines a service that allows
+  /// applications to be stored, retrieved and manipulated
+  ///
+  interface ApplicationRepository {
+
+    ///
+    /// Creates the directory
+    ///
+    /// @param directoryName - the directory path starting at repository root 
+    /// @raises DirectoryCreationException - If it cannot create the directory
+    ///
+    void createDirectory(in string directoryName)
+      raises (SecurityException,DirectoryCreationException, InvalidPathNameException); 
+
+    ///
+    /// Removes the directory
+    ///
+    /// @param directoryName - the directory path starting at repository root 
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    /// @raises DirectoryNotEmptyException - If 'directoryName' is not empty
+    ///
+    void removeDirectory(in string directoryName)
+      raises (SecurityException,DirectoryNotFoundException, DirectoryNotEmptyException, InvalidPathNameException);    
+
+    ///
+    /// Returns all information under a directory
+    ///
+    /// @param directoryName - the directory path starting at repository root 
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    ///
+    dataTypes::ContentDescriptionSequence listDirectoryContents(in string directoryName)
+      raises (SecurityException,DirectoryNotFoundException, InvalidPathNameException);    
+
+    ///
+    /// Registers an application in the repository
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+    /// @param applicationName - the application name
+    /// @raises DirectoryCreationException if it cannot create the directory
+    /// @raises ApplicationRegistrationException if it cannot to register the application file           
+    ///
+    void registerApplication(in string basePath, in string applicationName)
+      raises (SecurityException,DirectoryCreationException, ApplicationRegistrationException, InvalidPathNameException);      
+
+    ///
+    /// Unregisters an application registered on the ApplicationRepository
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+    /// @param applicationName - The name of the application
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    /// @raises ApplicationNotFoundException - If the application does not exist
+    /// @raises DirectoryNotEmptyException - If 'directoryName' is not empty
+    ///
+    void unregisterApplication (in string basePath, in string applicationName)
+      raises (SecurityException,DirectoryNotFoundException, ApplicationNotFoundException, DirectoryNotEmptyException, InvalidPathNameException);    
+
+    ///
+    /// Retrieves an application description structure
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+    /// @param applicationName - The name of the application
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    /// @raises ApplicationNotFoundException - If the application does not exist
+    ///
+    dataTypes::ApplicationDescription getApplicationDescription(in string basePath, in string applicationName)
+      raises (SecurityException,DirectoryNotFoundException, ApplicationNotFoundException, InvalidPathNameException);
+
+    ///
+    /// Uploads a binary file associating to an application in the repository
+ 	///
+    /// @param binaryDescription - the Binary description structure
+    /// @param binaryCode - the Binary executable code
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    /// @raises ApplicationNotFoundException - If the application does not exist
+    /// @raises BinaryCreationException - If it is not possible to create the binary file
+    ///
+    void uploadApplicationBinary(in dataTypes::BinaryDescription binaryDescription, in dataTypes::Binary binaryCode)
+      raises (SecurityException,DirectoryNotFoundException, ApplicationNotFoundException, BinaryCreationException, InvalidPathNameException);
+
+    ///
+    /// Deletes a binary file associated to an application in the repository
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+	/// @param applicationName - the application name
+    /// @param binaryName - the binary file name
+    /// @raises DirectoryNotFoundException - If 'directoryName' does not exist
+    /// @raises ApplicationNotFoundException - If the application does not exist
+    /// @raises BinaryNotFoundException - If the binary file does not exist
+    ///
+    void deleteApplicationBinary(in string basePath, in string applicationName, in string binaryName)
+      raises (SecurityException,DirectoryNotFoundException, ApplicationNotFoundException, BinaryNotFoundException, InvalidPathNameException);    
+
+    ///
+    /// Retrieves a binary file associated to an application in the repository
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+    /// @param applicationName - the application name    
+    /// @param binaryName - the binary file name
+    ///
+    dataTypes::Binary getApplicationBinary(in string basePath, in string applicationName, in string binaryName)
+	  raises (SecurityException,DirectoryNotFoundException, ApplicationNotFoundException, BinaryNotFoundException, InvalidPathNameException, FileIOException);
+
+    ///
+    /// Retrieves a binary file related to an application in a remote repository
+    ///
+    /// @param basePath - the directory path starting at repository root that holds the application
+    /// @param applicationName - the application name
+    /// @param binaryName - the binary file name
+    /// @param applicationRepositoryIor - Remote repository IOR
+    ///
+    dataTypes::Binary getRemoteApplicationBinary(in string basePath, in string applicationName, in string binaryName, in string applicationRepositoryIor)   
+	  raises (SecurityException, DirectoryNotFoundException, ApplicationNotFoundException, BinaryNotFoundException, InvalidPathNameException, FileIOException);
+  }; // interface ApplicationRepository
+
+}; // module clusterManagement

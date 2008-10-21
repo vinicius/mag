@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	This configuration file was written by the eclipse-cs plugin configuration editor
+-->
+<!--
+Checkstyle-Configuration: gvcStyle
+Description:
+
+-->
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+<module name="Checker">
+    <property name="severity" value="warning"/>
+    <module name="TreeWalker">
+        <module name="AbstractClassName"/>
+        <module name="FileLength">
+            <property name="max" value="500"/>
+        </module>
+        <module name="LineLength">
+            <property name="max" value="100"/>
+        </module>
+        <module name="MethodLength">
+            <property name="max" value="30"/>
+        </module>
+        <module name="ParameterNumber"/>
+        <module name="AvoidStarImport"/>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="ConstantName"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+        <module name="WhitespaceAfter"/>
+        <module name="ModifierOrder"/>
+        <module name="RedundantModifier"/>
+        <module name="AvoidNestedBlocks"/>
+        <module name="EmptyBlock"/>
+        <module name="LeftCurly"/>
+        <module name="RightCurly"/>
+        <module name="NestedIfDepth">
+            <property name="max" value="2"/>
+        </module>
+        <module name="AvoidInlineConditionals"/>
+        <module name="CovariantEquals"/>
+        <module name="DefaultComesLast"/>
+        <module name="DeclarationOrder"/>
+        <module name="DoubleCheckedLocking"/>
+        <module name="EmptyStatement"/>
+        <module name="EqualsHashCode"/>
+        <module name="ExplicitInitialization"/>
+        <module name="IllegalInstantiation"/>
+        <module name="IllegalCatch"/>
+        <module name="IllegalThrows"/>
+        <module name="IllegalToken">
+            <property name="tokens" value="POST_INC,POST_DEC,LITERAL_SWITCH"/>
+        </module>
+        <module name="IllegalTokenText"/>
+        <module name="IllegalType">
+            <property name="tokens" value="METHOD_DEF,PARAMETER_DEF,VARIABLE_DEF"/>
+        </module>
+        <module name="JUnitTestCase"/>
+        <module name="MissingCtor"/>
+        <module name="MultipleVariableDeclarations"/>
+        <module name="NestedTryDepth"/>
+        <module name="PackageDeclaration"/>
+        <module name="ParameterAssignment"/>
+        <module name="RedundantThrows"/>
+        <module name="ArrayTrailingComma"/>
+        <module name="CyclomaticComplexity"/>
+        <module name="BooleanExpressionComplexity"/>
+        <module name="ClassDataAbstractionCoupling"/>
+        <module name="ClassFanOutComplexity"/>
+        <module name="JavaNCSS"/>
+        <module name="NPathComplexity"/>
+        <module name="Indentation">
+            <property name="severity" value="ignore"/>
+        </module>
+    </module>
+    <module name="NewlineAtEndOfFile"/>
+</module>

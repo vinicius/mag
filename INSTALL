@@ -1,0 +1,139 @@
+InteGrade: Object-Oriented Grid Middleware - v0.2
+INSTALLATION MANUAL
+
+
+  This document describes the procedures for the installation and configuration
+  of InteGrade.
+  _________________________________________________________________________
+
+
+
+  Table of Contents
+
+  1. File description
+
+  2. Requirements
+
+  3. Preparing for compilation
+
+  4. Compiling InteGrade
+
+  5. Executing the InteGrade modules
+
+  _________________________________________________________________________
+
+
+  1. File description
+
+   After download the package integrade-X.X.tar.gz, you must unpack in
+  any directory:
+
+    cd /<any>
+    tar -zxvf integrade-XXX.tar
+
+  The list below shows the files and directories that will be created.
+
+      Changelog
+      README
+      INSTALL
+      setup.sh
+	|-> configure the compilation and execution parameters
+      setup.conf
+	|-> keep current system configuration for setup.sh
+      clusterManagement/arsm/
+	|-> application repository security manager  (ARSM)
+      clusterManagement/grm/
+ 	|-> server application (GRM)
+      clusterManagement/applicationRepository/
+	|-> app repository
+      examples/
+	|-> examples of grid applications
+      libs/
+	|-> support libraries
+      resourceProvider/ckpRepository/
+	|-> checkpointing's repository
+      resourceProvider/lrm/
+	|-> client application (LRM)
+      resourceProvider/lupa/
+	| -> local user pattern analyser
+      shared
+	|-> shared classes for the client and server applications
+      tools/asctGui/
+         |-> application submission and control tool
+      tools/clusterView/
+	|-> cluster viewer
+      trader
+	|-> trader's directory
+
+
+  2. Requirements
+
+   JacORB 1.4.1 or greater - http://www.jacorb.org
+   Ant 1.5 or greater - http://ant.apache.org
+   Lua-5.0-Plus - http://incubadora.fapesp.br/projects/integrade/
+   Compat-Lua-5.1-r5 - http://incubadora.fapesp.br/projects/integrade/
+   OiL 0.3.1 - http://incubadora.fapesp.br/projects/integrade/ 
+
+   Kerberos with all libraries and header files (OPTIONAL: If security
+   for the Application Repository is desired).
+
+   jdk 1.5 or greater - http://java.sun.com
+   GNU gcc compiler 
+   GNU Make with the following additional libraries and headers: 
+    General purpose cryptographic C++ library (libcrypto++);
+    Common error description library (comerr).
+
+
+
+   The current version only works on the Linux platform, since there is no standard
+   to obtain system information (e.g. CPU usage, free RAM) across various platforms. 
+   This limitation will be solved in the future.
+
+
+  3. Preparing for compilation
+
+     After installing all the above requirements you are ready to setup InteGrade.
+
+     IMPORTANT: If you wish to install Integrade with security enabled for the 
+     Application Repository, you MUST install and configure Kerberos FIRST. You have 
+     also to create grid user accounts in ARSC realm.
+     For more details about Kerberos and security check the Kerberos Tutorial for 
+     InteGrade (available soon at http://integrade.incubadora.fapesp.br)
+
+     The setup.sh script will help you on configuring InteGrade. You have two options: 
+
+     a) Run setup.sh without any arguments and answer some questions. 
+        The provided information will be saved on the setup.conf file (for future reuse).
+	OR
+     b) You can directly edit the setup.conf file and make it suitable for your 
+        environment. Then run setup.sh with "--file setup.conf".
+
+     More information can be found running "setup.sh --help".
+
+
+  4. Compiling InteGrade
+
+     To compile all the InteGrade modules:
+
+        make
+
+
+   5. Executing the InteGrade modules
+
+      Nowadays Integrade must be configured and compiled in all grid machines.
+      After this, you can start Integrade services with the startservices.sh script.
+
+        In one of the machines (where you will start all servers), type:
+
+          ./startservices.sh servers
+
+        In each machine that will be part of the grid, type:
+
+          ./startservices.sh lrm
+
+        In one of the machines that will be used for submitting and executing
+        grid applications, type:
+
+          ./startservices.sh asctGui
+
+  _________________________________________________________________________

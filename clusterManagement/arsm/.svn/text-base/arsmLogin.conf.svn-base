@@ -1,0 +1,7 @@
+/** 
+ * Login Configuration for JAAS.
+ */
+
+com.sun.security.jgss.accept {
+  com.sun.security.auth.module.Krb5LoginModule required  useKeyTab = true keyTab="arsm.keytab" storeKey=true doNotPrompt=true principal="srv/ARSM@integrade";
+};

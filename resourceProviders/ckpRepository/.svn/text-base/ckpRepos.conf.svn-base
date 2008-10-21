@@ -1,0 +1,5 @@
+port 4001
+serverNameRef corbaloc::guaguin:47039/NameService
+orbPath /usr/local/publico/oilpack/?
+cosNamingIdlPath ../../shared/idls/CosNaming.idl
+ckpReposManagerIdlPath ../../shared/idls/CkpReposManager.idl

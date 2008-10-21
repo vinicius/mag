@@ -1,0 +1,52 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src/core/ft/stablestorage/behaviours
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+ReceiveQueryCheckpoint.java
+file
+
+
+
+
+2007-08-08T21:00:09.000000Z
+d143996a380224cafeea784354c466c7
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+ReceiveSaveCheckpointRequest.java
+file
+
+
+
+
+2007-08-08T21:00:09.000000Z
+0174262cd310f331aec40d358a05d9ae
+2007-05-24T20:41:03.741451Z
+18
+diego
+

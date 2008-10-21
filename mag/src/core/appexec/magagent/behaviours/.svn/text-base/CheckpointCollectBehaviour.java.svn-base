@@ -1,0 +1,69 @@
+package core.appexec.magagent.behaviours;
+
+import jade.content.lang.Codec;
+import jade.content.lang.leap.LEAPCodec;
+import jade.content.onto.Ontology;
+import jade.core.AID;
+import jade.core.behaviours.SimpleBehaviour;
+import jade.domain.FIPANames;
+import jade.lang.acl.ACLMessage;
+import core.appexec.magagent.MagAgent;
+import core.ft.stablestorage.StableStorage;
+import core.ontology.MAGOntology;
+
+/**
+ Class CheckpointCollectBehaviour - A MagAgent behaviour
+ 
+ The MagAgent behaviour responsible for
+ collect the available application checkpoints and send
+ them to the StableStorage. It is notified be the application
+ when there is a new checkpoint to be saved
+ 
+ @author Rafael Fernandes Lopes
+ @author Bysmarck Barros de Sousa
+ */
+public class CheckpointCollectBehaviour extends SimpleBehaviour {
+	private static final long serialVersionUID = 1653121585529189270L;
+	
+	private Object checkpoint = null;
+	
+	private transient MagAgent magAgent = null;
+	
+	private Codec codec = new LEAPCodec();
+	private Ontology ontology = MAGOntology.getInstance();
+	private AID stableStorageAID;
+	
+	public CheckpointCollectBehaviour (MagAgent magAgent) {
+		super (magAgent);
+		
+		this.magAgent = magAgent;
+		
+		stableStorageAID = new AID(StableStorage.STABLE_STORAGE_NAME + "@" + magAgent.getContainerController().getPlatformName(), AID.ISGUID);
+	}
+	
+	public void action() {
+		checkpoint = magAgent.getO2AObject();
+		
+		if (checkpoint == null) {
+			block ();
+		} else {
+			ACLMessage saveCheckpointMsg = new ACLMessage (ACLMessage.REQUEST);
+			saveCheckpointMsg.setProtocol (FIPANames.InteractionProtocol.FIPA_REQUEST);
+			saveCheckpointMsg.setConversationId ("saveCheckpoint");
+			saveCheckpointMsg.setLanguage (codec.getName()); 
+			saveCheckpointMsg.setOntology (ontology.getName());
+			saveCheckpointMsg.setSender (magAgent.getAID());
+			saveCheckpointMsg.addReceiver (stableStorageAID);
+			
+			magAgent.addBehaviour (new SaveCheckpointBehaviour (magAgent, saveCheckpointMsg, magAgent.getAppExecutionId(), checkpoint));
+		}
+	}
+	
+	public boolean done() {
+		if (checkpoint != null) {
+			return true;
+		}
+		
+		return false;
+	}
+}

@@ -1,0 +1,1 @@
+( ap-description  :name "ilhabela:1099/JADE" :ap-services (set))

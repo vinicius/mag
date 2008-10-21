@@ -1,0 +1,309 @@
+/*
+ * Created on 24/01/2006
+ *
+ * TODO To change the template for this generated file go to
+ * Window - Preferences - Java - Code Style - Code Templates
+ */
+package core.appexec.magagent.behaviours;
+
+import jade.content.lang.Codec;
+import jade.content.lang.leap.LEAPCodec;
+import jade.content.onto.Ontology;
+import jade.core.behaviours.OneShotBehaviour;
+
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.lang.reflect.Constructor;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
+import java.util.StringTokenizer;
+import java.util.zip.GZIPInputStream;
+
+import core.appexec.agenthandler.ClassLoaderObjectInputStream;
+import core.appexec.magagent.MagAgent;
+import core.application.MagApplication;
+import core.ontology.InputFile;
+import core.ontology.MAGOntology;
+import core.wrappers.WrapperFactory;
+import dataTypes.ExecutionRequestId;
+import dataTypes.FileStruct;
+
+/**
+ * @author rafaelf
+ *
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
+ */
+public class ExecuteApplicationBehaviour extends OneShotBehaviour  {
+	private MagAgent magAgent = null;
+	
+	private Codec codec = new LEAPCodec();
+	private Ontology ontology = MAGOntology.getInstance();
+		
+	public ExecuteApplicationBehaviour(MagAgent magAgent) {
+		super(magAgent);
+		
+		this.magAgent = magAgent;
+		
+
+	}
+
+	public void action() {
+		try {
+				String appName = this.downloadApplication();
+				
+				magAgent.setAppName(appName);
+				
+				if (!magAgent.getIsRecovering()) {
+						
+					if (Integer.parseInt(magAgent.getNumberOfReplicas()) == 0 )
+						this.requestInputFiles();
+					
+					// Creates empty output files
+					try {
+						// Vinicius {
+//						(new FileOutputStream ("./" + magAgent.getAppExecutionId() + "/stdout")).close();
+//						(new FileOutputStream ("./" + magAgent.getAppExecutionId() + "/stderr")).close();
+						(new FileOutputStream ("./" + magAgent.getAppOutputDirectory() + "/stdout")).close();
+						(new FileOutputStream ("./" + magAgent.getAppOutputDirectory() + "/stderr")).close();
+						// } Vinicius
+					} catch (Exception e) { }
+				}
+			// Executes the application from beginning
+			executeApplication(magAgent.getAppName());
+			magAgent.getApplication().setAgent(magAgent);
+			//overrides the default application exception handler, to MagAgent receive applications uncaught exceptions.
+			magAgent.getApplication().setUncaughtExceptionHandler(magAgent);
+			// Add behaviours: NotifyStatusBehaviour - monitors the application execution,
+			// waiting for its end; kill the agent when the application finishes
+			// CheckpointCollectBehaviour - saves periodically the application's checkpoint
+			magAgent.addBehaviour(new NotifyStatusBehaviour(magAgent, magAgent.getApplication()));
+			magAgent.addBehaviour (new CheckpointCollectBehaviour(magAgent));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 Executes the an application
+	 
+	 @param fileName - filename of application to execute
+	 */
+	private void executeApplication(String fileName) throws Exception {
+		try {
+			String className = getClassName(fileName);
+			ClassLoader loader = getClassLoader(fileName);
+			
+			Class c = getClass(className, loader);
+			
+			if (c != null) {
+				Constructor ct = null;
+				
+				// Try to load a Constructor with arguments
+				// e.g. 'Constructor (String args[])'
+				try {
+					Class partypes[] = new Class[] {String[].class};
+					
+					ct = c.getConstructor(partypes);
+					
+					StringTokenizer str = new StringTokenizer (magAgent.getAppArgs());
+					
+					String arguments[] = new String[0];
+					if (str.countTokens() > 0) {
+						arguments = new String[str.countTokens()];
+						
+						int i = 0;
+						while (str.hasMoreTokens()) {
+							arguments[i] = str.nextToken();
+							i++;
+						}
+					} else {
+						// Does not exist a constructor with parameters
+						throw new NoSuchMethodException();
+					}
+					
+					// Redirect the output to avoid application output in the constructor code
+					// Vinicius {
+					magAgent.redirectOutput (Thread.currentThread(), magAgent.getAppOutputDirectory());
+//					magAgent.redirectOutput (Thread.currentThread(), magAgent.getAppExecutionId());
+					// } Vinicius
+					
+					try {
+						magAgent.setApplication((MagApplication) ct.newInstance(new Object[] {arguments}));
+					} catch (Exception e) {
+						magAgent.disableRedirectOutput(Thread.currentThread());
+						
+						throw new NoSuchMethodException();
+					}
+				} catch (java.lang.NoSuchMethodException nsme) {
+					// Vinicius {
+//					magAgent.redirectOutput(Thread.currentThread(), magAgent.getAppExecutionId ());
+					magAgent.redirectOutput(Thread.currentThread(), magAgent.getAppOutputDirectory());
+					// } Vinicius
+					
+					magAgent.setApplication((MagApplication) c.newInstance());
+				} finally {
+					magAgent.disableRedirectOutput(Thread.currentThread());
+				}
+				// Vinicius {
+//				magAgent.redirectOutput (magAgent.getApplication(), magAgent.getAppExecutionId ());
+				magAgent.redirectOutput (magAgent.getApplication(), magAgent.getAppOutputDirectory());
+				
+				magAgent.getApplication().setBaseDir ("./" + magAgent.getAppExecutionId () + "/");
+				magAgent.getApplication().setAppExecutionId (magAgent.getAppExecutionId());
+//				magAgent.getApplication().setBaseDir ("./" + magAgent.getAppOutputDirectory() + "/");
+//				magAgent.getApplication().setAppExecutionId (magAgent.getAppOutputDirectory());
+//				 } Vinicius
+				
+				if (magAgent.getIsRecovering() && magAgent.getCompressedCheckpoint() != null) {
+					// Restore the application from its last checkpoint (stored at StableStorage)
+					ByteArrayInputStream bais = new ByteArrayInputStream (magAgent.getCompressedCheckpoint());
+					ClassLoaderObjectInputStream clois = new ClassLoaderObjectInputStream (new GZIPInputStream (bais), loader);
+					magAgent.setApplication ((MagApplication) clois.readObject ());
+					clois.close();
+					bais.close();
+					
+					// Resumes the application execution
+					magAgent.getApplication().doResume();
+				} else {
+					// Starts application execution
+					
+					magAgent.getApplication().doStart();
+				}
+			}
+		} catch (ClassCastException e) {
+			this.executionError ("The application must extend the MagApplication class!");
+		} catch (java.lang.InstantiationException e) {
+			this.executionError ("Error instantiating user application!\nArguments can be missing or the constructor method can't be public.");
+		}
+	}
+	
+	private String getClassName (String fileName) {
+		String className = null;
+		
+		// Verifies if the application is the single class application or
+		// if the application is inside of a package
+		if (fileName.endsWith(".class")) {
+			className = new String(fileName.substring(0, fileName.length() - 6));
+		} else if (fileName.endsWith(".jar")) {
+			// If the application is inside of a package, the main class
+			// name must be 'Boot'
+			className = new String("Boot");
+		}
+		
+		return className;
+	}
+	
+	private ClassLoader getClassLoader(String fileName) {
+		try {
+			URL url[] = null;
+			
+			// Verifies if the application is an unique class application or
+			// if the application is inside of a package
+			if (fileName.endsWith(".class")) {
+				url = new URL[] { new URL("file:./" + magAgent.getAppExecutionId () + "/"), new URL("file:.") };
+			} else if (fileName.endsWith(".jar")) {
+				url = new URL[] { new URL("file:./" + magAgent.getAppExecutionId () + "/" + fileName), new URL("file:.") };
+			}
+			
+			// Creates a classloader for the class:
+			// the class must be found inside a directory or a package
+			URLClassLoader loader = new URLClassLoader(url);
+			
+			return loader;
+		} catch (MalformedURLException e) {
+			this.executionError("Malformed reference to .class or .jar file");
+		}
+		
+		return null;
+	}
+
+	private Class getClass (String className, ClassLoader classLoader) {
+		try {
+			System.out.println (">> " + className + " / " + classLoader);
+			// Retrieve the 'Class' reference, based on the classloader			
+			Class c = Class.forName(className, true, classLoader);
+			
+			return c;
+		} catch (ClassNotFoundException e) {
+			if (classLoader instanceof URLClassLoader) {
+				String fileName = ((URLClassLoader) classLoader).getURLs()[0].getRef();
+			
+				if (fileName.indexOf(".class") >= 0) {
+					this.executionError ("The class " + className + " was not found!");
+				} else if (fileName.endsWith(".jar")) {
+					this.executionError ("The 'Boot' class was not found in package root!");
+				}
+			} else {
+				this.executionError ("Unknown error instantiating application");
+			}
+		}
+		
+		return null;
+	}
+	
+	private String downloadApplication() throws Exception {
+		// Creates a wrapper that communicates with the ApplicationRepository
+		core.wrappers.AppReposWrapper repository = WrapperFactory.getInstance().createAppReposWrapper();
+		
+		// Download the application bytecode from the Applicationrepository
+		//byte app[] = repository.getApplication(magAgent.getAppReposId());
+		byte app[] = repository.getApplication(magAgent.getBasePath(), magAgent.getAppName(), "Java_");
+		
+		// Deserializes the application bytecode and retrieves the class name
+		//JavaApplication jApp = (JavaApplication) magAgent.unmarshall(app);
+		
+		// Saves the bytecode on filesystem (strong recommended the use of a NFS FileSystem!)
+		//String appName = jApp.getClassName();
+		this.saveToFile(magAgent.getAppExecutionId(), magAgent.getAppName(), app);
+		
+		return magAgent.getAppName();
+	}
+	
+	private void requestInputFiles() {
+		core.wrappers.AsctWrapper asct = WrapperFactory.getInstance().createAsctWrapper(magAgent.getAsctIor());
+		//FileStruct iFiles[] = asct.requestInputFiles (magAgent.getAppMainRequestId(), magAgent.getAppNodeRequestId(), "./" + magAgent.getAppExecutionId());
+		ExecutionRequestId executionRequestId = new ExecutionRequestId();
+		executionRequestId.requestId = magAgent.getAppMainRequestId();
+		executionRequestId.processId = magAgent.getAppNodeRequestId();
+//		executionRequestId.replicaId = magAgent.getReplicaId(); // Vinicius;
+		
+		//FileStruct [] iFiles = asct.returnInputFiles(executionRequestId);
+		// Vinicius discommented {
+		FileStruct iFiles[] = asct.getInputFiles(magAgent.getAppMainRequestId(), magAgent.getAppNodeRequestId(), "./" + magAgent.getAppExecutionId());
+//		FileStruct iFiles[] = asct.getInputFiles(magAgent.getAppOutputDirectory().split(":")[2], magAgent.getAppNodeRequestId(), "./" + magAgent.getAppExecutionId());
+		// } Vinicius
+
+		for (int i = 0; i < iFiles.length; i++) {
+			InputFile file = new InputFile();
+			
+			file.setFileName(iFiles[i].fileName);
+			file.setContent(iFiles[i].file);
+			
+			magAgent.getInputFiles().add(file);
+		}
+	}
+	
+	/**
+	 Saves a serialized bytecode on filesystem
+	 
+	 @param directory - directory where to put the file
+	 @param fileName - the name of the file to be saved
+	 @param b - a serialized object
+	 @throws Exception case any error occurs
+	 */
+	private void saveToFile(String directory, String fileName, byte b[]) throws Exception {
+		FileOutputStream fout = new FileOutputStream (directory + "/" + fileName);
+		fout.write(b);
+		fout.close();
+	}
+	
+	private void executionError (String errorMessage) {
+		magAgent.errorMessage(magAgent.getAppExecutionId (), errorMessage);
+		magAgent.setApplication(null);
+		
+		magAgent.terminateAgent ();
+	}
+}

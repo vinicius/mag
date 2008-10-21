@@ -1,0 +1,102 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/libs/bspLib
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+tests
+dir
+
+BspLib.idl
+file
+
+
+
+
+2007-07-05T14:15:11.000000Z
+1cece41bbaea14cd3d524b20264a3b50
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+include
+dir
+
+bspcc.sh
+file
+
+
+
+
+2007-07-05T14:15:11.000000Z
+bc731adbf985758ffcd0a14a52c696b6
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+
+src
+dir
+
+Makefile.vars
+file
+
+
+
+
+2007-07-05T14:15:11.000000Z
+3f1129289cc02e90d9bf6923dcd9a7de
+2007-05-24T20:41:03.741451Z
+18
+diego
+has-props
+
+.cvsignore
+file
+
+
+
+
+2007-07-05T14:15:11.000000Z
+d69afd8acb871c9fa55867caff806767
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+Makefile
+file
+
+
+
+
+2007-07-05T14:15:11.000000Z
+20e7c4c619a56ce70518db43ff53831a
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+examples
+dir
+

@@ -1,0 +1,9 @@
+securityIdlPath ../../shared/idls/Arsm.idl
+cosNamingIdlPath ../../shared/idls/CosNaming.idl
+serverNameRef corbaloc::guaguin:47039/NameService
+orbPath /usr/local/publico/oilpack/?
+principal bauru/ARSC@LCPD.IME.USP.BR
+keytab lrm.keytab
+isWrap true
+secureAppRepos true
+

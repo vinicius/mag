@@ -1,0 +1,111 @@
+<html>
+<head><title>filter</title></head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">filter</td></tr>
+</thead><tbody>
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Sorry, You don't have permission to acess this page.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Sorry, You don't have permission to acess this page.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:email</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:password</td>
+	<td>admin</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>File Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Logout</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:email</td>
+	<td>user</td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>loginForm:password</td>
+	<td>user</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>loginForm:loginButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=User Management</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>Sorry, You don't have permission to acess this page.</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>verifyTextPresent</td>
+	<td>File Upload</td>
+	<td></td>
+</tr>
+
+</tbody></table>
+</body>
+</html>

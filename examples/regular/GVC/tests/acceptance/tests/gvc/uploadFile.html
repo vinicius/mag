@@ -1,0 +1,138 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title></title>
+</head>
+<body>
+<table cellpadding="1" cellspacing="1" border="1">
+<thead>
+<tr><td rowspan="1" colspan="3">uploadfile</td></tr>
+</thead><tbody>
+<tr>
+	<td>store</td>
+	<td>/tmp/Mahnahmahna.mpg</td>
+	<td>path1</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>arquivoNaoExistente/tmp</td>
+	<td>path2</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>Mahnahmahna.mpg</td>
+	<td>filename1</td>
+</tr>
+<tr>
+	<td>store</td>
+	<td>arquivoNaoExistente/tmp</td>
+	<td>filename2</td>
+</tr>
+<tr>
+	<td>open</td>
+	<td>/GVC</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<!--Test 0 - null-->
+<tr>
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>Validation Error "fileupload": Value is required.</td>
+	<td></td>
+</tr>
+<!--Test 1 - valid file-->
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>id=uploadForm:fileupload</td>
+	<td>${path1}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>File uploaded succesfully!</td>
+	<td></td>
+</tr>
+<!--Test 2 - File dont exist-->
+<tr>
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr>
+	<td>type</td>
+	<td>uploadForm:fileupload</td>
+	<td>${path2}</td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>MISSING: fileUploadForm.errorStatus :MISSING</td>
+	<td></td>
+</tr>
+<!--Test 3 - Invalid file-->
+<!--Test 4 - convertionList and downloadList-->
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Convert</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>${filename1}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>${filename2}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>clickAndWait</td>
+	<td>link=Download</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextPresent</td>
+	<td>${filename1}</td>
+	<td></td>
+</tr>
+<tr>
+	<td>assertTextNotPresent</td>
+	<td>${filename2}</td>
+	<td></td>
+</tr>
+</tbody></table>
+</body>
+</html>

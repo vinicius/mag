@@ -1,0 +1,73 @@
+<!DOCTYPE tiles-definitions PUBLIC
+"-//Apache Software Foundation//DTD Tiles Configuration 1.1//EN"
+"http://jakarta.apache.org/struts/dtds/tiles-config_1_1.dtd">
+
+<tiles-definitions>
+	<!-- Templates  -->
+    <definition name="template" path="/templates/template.jsp">
+    	<put name="logo" value="/pages/common/logo.jsp"/>
+    	<put name="search" value="/pages/common/search.jsp"/>
+    	<put name="login" value="/pages/login/login.jsp"/>
+    	<put name="menu" value="/pages/menu.jsp"/>
+    	<put name="content" value=""/>
+    	<put name="about" value="/pages/common/about.jsp"/>
+    	<put name="technology" value="/pages/common/technology.jsp"/>
+    </definition>
+    
+    <!-- Pages -->
+    <definition name="/pages/home.tiles" extends="template">
+        <put name="content" value="/pages/home.jsp"/>
+    </definition>
+    
+    <definition name="/pages/common/credits.tiles" extends="template">
+        <put name="content" value="/pages/common/credits.jsp"/>
+    </definition>
+
+    <definition name="/pages/user/upload/fileupload.tiles" extends="template">
+        <put name="content" value="/pages/user/upload/fileupload.jsp"/>
+    </definition>
+    
+	<definition name="/pages/user/upload/fileupload_summary.tiles" extends="template">
+        <put name="content" value="/pages/user/upload/fileupload_summary.jsp"/>
+    </definition>
+    
+    <definition name="/pages/user/conversion/customize.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/customize.jsp"/>
+    </definition>
+    <definition name="/pages/user/conversion/help.tiles" path="/pages/user/conversion/help.jsp"/>
+
+    <definition name="/pages/user/conversion/convertionList.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/convertionList.jsp"/>
+    </definition>
+
+    <definition name="/pages/user/conversion/downloadList.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/downloadList.jsp"/>
+    </definition>
+
+    <definition name="/pages/user/conversion/submissionList.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/submissionList.jsp"/>
+    </definition>
+	
+	<definition name="/pages/user/conversion/submissionDetail.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/submissionDetail.jsp"/>
+    </definition>
+        
+	<definition name="/pages/user/conversion/management.tiles" extends="template">
+        <put name="content" value="/pages/user/conversion/management.jsp"/>
+    </definition>
+    
+    
+    <!-- Login -->
+	<definition name="/pages/user/userData/userDataManagement.tiles" extends="template">
+    	<put name="content" value="/pages/user/userData/userDataManagement.jsp"/>
+    </definition>
+    <definition name="/pages/admin/management/userManagement.tiles" extends="template">
+    	<put name="content" value="/pages/admin/management/userManagement.jsp"/>
+    </definition>
+    
+    <definition name="/pages/login/information.tiles" extends="template">
+    	<put name="content" value="/pages/login/information.jsp"/>
+    </definition>
+
+    
+</tiles-definitions>

@@ -1,0 +1,214 @@
+/**
+ * @(#)OrbHolder.java		Dec 20, 2005
+ *
+ * Copyleft
+ */
+package asct.core.corba;
+
+import org.omg.CORBA.ORB;
+import org.omg.CosNaming.NamingContextExt;
+import org.omg.CosNaming.NamingContextExtHelper;
+import org.omg.PortableServer.POA;
+import org.omg.PortableServer.POAHelper;
+
+import resourceProviders.Lrm;
+import resourceProviders.LrmHelper;
+import arsc.ArscImpl;
+import asct.core.util.Util;
+import clusterManagement.ApplicationRepository;
+import clusterManagement.ApplicationRepositoryHelper;
+import clusterManagement.ContextInitiationException;
+import clusterManagement.Grm;
+import clusterManagement.GrmHelper;
+
+import java.io.IOException;
+import java.util.Properties;
+import java.io.FileInputStream;
+/**
+ * Hold the orb and the stubs.
+ * 
+ * @version 1.0 Dec 20, 2005
+ * @author Eduardo Guerra and Eudenia Xavier
+ */
+public final class OrbHolder implements Runnable {
+
+	/** */
+	private ORB orb;
+	
+	/** Asct Corba server object. */
+	private AsctImpl asctImpl;
+	
+	/* Stubs */
+
+	/** */
+	private ApplicationRepository appRepos;
+
+	/** */
+	private Grm grm;
+
+	/* Iors */
+
+	/** */
+	private String grmIor;
+
+	/** */
+	private String applicationRepositoryIor;
+
+	/** */
+	private String asctIor;
+
+	/** */
+	//private ExecutionRequestManager execManager;
+
+	private boolean isSecureAppRepos;
+
+	/**  */
+	private String nameServiceUrl;
+	
+	private boolean isRunning = false;
+	
+	/**
+	 * Constructor.
+	 */
+	public OrbHolder() {
+	    Properties asctProperties = new Properties();
+	    try {
+		asctProperties.load(new FileInputStream("asct.conf"));
+	    } catch (IOException e) {
+		e.printStackTrace();
+	    }
+	    String isSecurityEnabled = asctProperties.getProperty("isSecurityEnabled");
+	    isSecureAppRepos = (isSecurityEnabled.equalsIgnoreCase("true"))?true:false;
+	}
+	
+	/**
+	 * @param nameService the url of the NameService
+	 * */
+	public void initStubs() {
+
+		try {
+			/* NameService url being loaded from jacorb.properties */
+			
+			orb = ORB.init(new String[] {}, null);
+			
+			/* get a reference to the naming service */
+			org.omg.CORBA.Object ns = orb
+					.resolve_initial_references("NameService");
+			NamingContextExt namingContext = NamingContextExtHelper.narrow(ns);
+			
+			/* look up AR and GRM */
+			
+			org.omg.CORBA.Object obj = namingContext.resolve(namingContext.to_name("AR")); 
+			
+			appRepos = ApplicationRepositoryHelper.narrow(obj);
+
+			obj = namingContext.resolve(namingContext.to_name("GRM"));
+			grm = GrmHelper.narrow(obj);
+			
+			grmIor = grm.toString();
+			applicationRepositoryIor = appRepos.toString();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		if (Util.DEBUG) {
+			System.out.println("[OrbHolder] initStubs ok:");
+			System.out.println("[OrbHolder] grmIor: " + grmIor);
+			System.out.println("[OrbHolder] appReposIor:" 
+						+ applicationRepositoryIor);
+		}
+	}
+
+	/**
+	 * @return the wrapper to the application repository
+	 * */
+	public ApplicationRepositoryStubWrapper 
+				getApplicationRepositoryStubWrapper() {
+		ApplicationRepositoryStubWrapper appReposWrapper = null;
+		
+		if (this.isSecureAppRepos) {
+			System.out.println("Secure Application Repository.");
+			ArscImpl arscAsct = new ArscImpl();
+			try {
+				arscAsct.initContext();
+			} catch (ContextInitiationException e) {
+				e.printStackTrace();
+			}
+			appReposWrapper = new SecureApplicationRepositoryWrapper(appRepos,arscAsct);
+		} else {
+			appReposWrapper = new ApplicationRepositoryStubWrapper(appRepos);
+		}
+		return appReposWrapper;
+	}
+	
+	/**
+	 * @return the wrapper to the grm
+	 * */
+	public GrmStubWrapper getGrmStubWrapper() {
+		return new GrmStubWrapper(grm);
+	}
+
+	/**
+	 * @return true if the ORB is already initialized
+	 */
+	public boolean getIsRunning() { return isRunning; }
+	
+	/**
+	 * @param asct corba object
+	 * */
+	public void setAsctImpl(final AsctImpl asct) {
+		asctImpl = asct;
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
+	public void run() {
+		try {
+			POA poa = POAHelper.narrow(orb
+					.resolve_initial_references("RootPOA"));
+			poa.the_POAManager().activate();
+			org.omg.CORBA.Object o = poa.servant_to_reference(this.asctImpl);
+			asctIor = orb.object_to_string(o);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		isRunning = true;
+		orb.run();
+	}
+
+	/**
+	 * @return Returns the applicationRepositoryIor.
+	 */
+	public String getApplicationRepositoryIor() {
+		return applicationRepositoryIor;
+	}
+
+	/**
+	 * @return Returns the asctIor.
+	 */
+	public String getAsctIor() {
+		return asctIor;
+	}
+
+	/**
+	 * @return Returns the grmIor.
+	 */
+	public String getGrmIor() {
+		return grmIor;
+	}
+
+	/**
+	 * @param lrmIor the ior of the lrm
+	 * @return Returns the reference to the Lrm of the given ior.
+	 */
+	public Lrm getLrmObject(final String lrmIor) {
+		Lrm lrm = 
+            LrmHelper.narrow(orb.string_to_object(lrmIor));
+		return lrm;
+	}
+
+}

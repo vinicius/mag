@@ -1,0 +1,73 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/trunk/mag/src/core/brakes/de/fub/bytecode
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+Repository.java
+file
+
+
+
+
+2007-10-17T14:50:46.000000Z
+c1ebfc7e9b366ea1a9a009b40fc0a31f
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+ClassPath.java
+file
+
+
+
+
+2007-10-17T14:50:46.000000Z
+177c4499bf46e75eb0d32b3d0045d341
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+classfile
+dir
+
+generic
+dir
+
+Constants.java
+file
+
+
+
+
+2007-10-17T14:50:46.000000Z
+45202bd17c1fd95c8adc62214e6c4500
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+util
+dir
+

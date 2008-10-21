@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+
+
+
+<project name="arsc" default="all" basedir=".">
+
+    <property environment="env"/>
+    <property name="jacorb.home" value="${env.JACORB_HOME}"/>
+    <property name="src.dir" value="${basedir}/src"/>
+    <property name="arsm.dir" value="../../../clusterManagement/arsm/"/>
+    <property name="classes.dir" value="${basedir}/classes"/>
+    <property name="doc.dir" value="${basedir}/doc"/>
+    <property name="javadoc.dir" value="${doc.dir}/javadoc"/>
+
+
+  <!-- =================================================================== -->
+  <!-- Creates Directories                                                 -->
+  <!-- =================================================================== -->
+
+  <target name="prepare" >
+    <mkdir dir="${classes.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compiles SecureApp.idl                                               -->
+  <!-- =================================================================== -->
+
+  <target name="secIdl">
+    <exec dir="${src.dir}" executable="${jacorb.home}/bin/idl">
+      <arg line="../../../idls/Arsm.idl"/>
+    </exec>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Compile IDL generated classes                                       -->
+  <!-- =================================================================== -->
+  <target name="all" depends="secIdl, compile">
+  </target> 
+
+  <!-- =================================================================== -->
+  <!-- Compile IDL generated classes                                       -->
+  <!-- =================================================================== -->
+  <target name="compile" depends="prepare">
+  <echo message="Sources: ${src.dir}"/>
+  <echo message="Dest   : ${classes.dir}"/>
+  <javac  
+	  sourcepath="${arsm.dir}/src" 
+	  srcdir="${src.dir}"
+          destdir="${classes.dir}"
+          debug="on"
+          deprecation="on"
+          optimize="off"
+          includes="**/*.java"
+          classpath="${basedir}:${jacorb.home}/lib/jacorb.jar"/>
+  <copy file="jacorb.properties" todir="${classes.dir}"/>
+  <chmod file="${classes.dir}/runit" perm="755"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Cleanup                                                             -->
+  <!-- =================================================================== -->
+
+  <target name="clean" >
+    <!-- Deletes all .class -->
+    <delete dir="${classes.dir}"/>
+    <!--Deletes IDL generated source files -->
+    <delete includeEmptyDirs="true">
+      <fileset dir="${src.dir}"> 
+        <exclude name="arsc/**"/>
+      </fileset>
+    </delete>
+    <delete dir="${doc.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Prepare to generate documentation                                   -->
+  <!-- =================================================================== -->
+
+  <target name="preparedoc" depends="secIdl">
+    <mkdir dir="${doc.dir}"/>
+  </target>
+
+  <!-- =================================================================== -->
+  <!-- Generates Javadoc                                                   -->
+  <!-- =================================================================== -->
+
+  <target name="javadoc" depends="preparedoc">
+    <mkdir dir="${javadoc.dir}"/>
+    <javadoc destdir="./doc/javadoc"
+              classpath=".:types:interfaces:${jacorb.home}/lib/jacorb.jar">
+      <fileset dir="${src.dir}"
+                includes="**/*.java"/>
+    </javadoc>
+  </target>
+
+</project>
+

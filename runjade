@@ -1,0 +1,28 @@
+#!/bin/sh
+
+JARS=""
+
+#LISTFILES=`ls -1 $XINDICE_HOME/java/lib/*.jar`
+#for jar in $LISTFILES
+#do
+#   JARS=$jar:$JARS;
+#done
+
+#LISTFILES=`ls -1 $XINDICE_HOME/dist/*.jar`
+#for jar in $LISTFILES
+#do
+#   JARS=$jar:$JARS;
+#done
+
+#LISTFILES=`ls -1 $JADE_HOME/lib/*.jar`
+#for jar in $LISTFILES
+#do
+#   JARS=$jar:$JARS;
+#done
+
+#cd ${IG_HOME}/mag/classes
+
+#      xterm -title '>>>>SAM>>>>' -e  jaco -classpath ${CLASSPATH}:${JARS}:${IG_HOME}/shared/stubs/classes core.security.sam.SamImpl &   
+#       sleep 3
+
+jaco -classpath ${JADE_HOME}/lib/jade.jar:${JADE_HOME}/lib/http.jar:${JADE_HOME}/lib/iiop.jar:${JADE_HOME}/lib/jadeTools.jar:${JADE_HOME}/lib/commons-codec/commons-codec-1.3.jar:${IG_HOME}/mag/classes:${IG_HOME}/clusterManagement/grm/classes:${IG_HOME}/shared/stubs/classes:${IG_HOME}/libs/h2/h2.jar jade.Boot -gui $@ jade.Boot -gui crmagent:core.ft.crm.CrmAgent executionmanagementagent:core.execman.ema.ExecutionManagementAgentImpl stable-storage:core.ft.stablestorage.StableStorage

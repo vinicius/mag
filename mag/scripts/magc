@@ -1,0 +1,4 @@
+#!/bin/sh
+
+javac -target 1.4  $1
+rewrite ${1//.java/.class}

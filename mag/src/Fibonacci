@@ -1,0 +1,34 @@
+import core.application.*;
+
+public class Fibonacci extends MagApplication {
+    private int value;
+    
+    public Fibonacci (String args[]) {
+	value = Integer.parseInt(args[0]);
+    }
+    
+    private int fibo (int[] f, int i) {
+        return f [i-1] + f[i-2];
+    }
+    
+    public void run() {
+	while(true) {
+	    String linha;
+	    int n = 0;
+	    
+	    n = value;
+	    int fib[];
+	    fib = new int[n];
+	    
+	    
+	    fib[0] = 0;
+	    fib[1] = 1;
+	    for(int i = 2;i<fib.length;i++) {
+		fib[i] = fibo(fib, i);
+		System.out.println("O termo é:" +fib[i]);
+	    }
+	    
+	    break;
+	}
+    }
+}

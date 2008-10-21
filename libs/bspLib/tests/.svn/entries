@@ -1,0 +1,52 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/libs/bspLib/tests
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+BspExecutionTester.cpp
+file
+
+
+
+
+2007-07-05T14:15:09.000000Z
+b430cfd6a137f31e5df3f7855f2971da
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+bspExec.desc
+file
+
+
+
+
+2007-07-05T14:15:09.000000Z
+7b4ed505fd49f9061b923f61f5c908cc
+2007-05-24T20:41:03.741451Z
+18
+diego
+

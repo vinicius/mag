@@ -1,0 +1,3 @@
+websupport=true
+axis.home=/usr/local/publico/jakarta-tomcat-5.0.28/webapps/axis/
+axis.libs=/usr/local/publico/jakarta-tomcat-5.0.28/webapps/axis//WEB-INF/lib

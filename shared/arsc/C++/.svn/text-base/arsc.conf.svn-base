@@ -1,0 +1,8 @@
+securityIdlPath ../../idls/Arsm.idl
+cosNamingIdlPath ../../../shared/idls/CosNaming.idl
+serverNameRef corbaloc::localhost1:47039/NameService
+orbPath /usr/local/lua1/?
+principal  campinas/ARSC@LCPD.IME.USP.BR
+isWrap true
+keytab machine.keytab
+

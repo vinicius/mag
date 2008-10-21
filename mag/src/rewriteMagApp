@@ -1,0 +1,5 @@
+#!/bin/bash
+cd ../classes
+
+java -classpath /home/pos/vinicius/integrade-mag/mag/classes/:/home/pos/vinicius/programas/jade/classes/:/home/pos/vinicius/integrade-mag/clusterManagement/grm/classes/:. core.brakes.be.ac.kuleuven.cs.ttm.transformer.Transformer core/application/MagApplication.class > /dev/null
+

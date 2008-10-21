@@ -1,0 +1,116 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-28T14:44:10.814685Z
+29
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+COPYRIGHT
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+3345581fdf5ce4fce194aa8c17d04352
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+asct.conf
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+81517735febc24fb852914aa82f10323
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+bin
+dir
+
+
+
+delete
+
+build.properties
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+a5a599f3b98a5830638bebfc01164bcf
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+build.xml
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+828458e2b9097675af219acac834c62c
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+classes
+dir
+
+core
+dir
+
+examples
+dir
+
+mag.conf
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+24ad7b794b488785878c42df6428bd02
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+mag.idl
+file
+
+
+
+
+2007-08-08T21:00:12.000000Z
+da8ac802c598c0a58bcc4413e935ca91
+2007-05-24T20:41:03.741451Z
+18
+diego
+

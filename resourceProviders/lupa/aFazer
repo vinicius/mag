@@ -1,0 +1,21 @@
+- integrar o LUPA no InteGrade (prioridade máxima)
+
+- fazer o Grm escolher outra máquina ao receber uma resposta negativa de um Lrm.
+
+- gerar um arquivo .so ao invés de linkar os objetos do Lupa junto com os
+  objetos do Lrm.
+
+- criar um arquivo de Lock para não dar problema quando mais de um Lrm está
+  sendo executado na mesma máquina. Pensar no problema que existe devido ao fato
+  de que os Lrm's, apesar de estarem sendo executados em máquinas diferentes, seus
+  dados estão sendo armazenados no mesmo arquivo do usuário, e não em arquivos
+  individuais para cada máquina.
+
+- limitar o número de amostras nos DataBanks: 
+   - decidir de quem é esta tarefa: DataBank ou ClusteringStrategy.
+
+- alterar o WeekClusteringStrategy para que as novas amostras sejam utilizadas,
+  ao invés de sempre as antigas. Dica: push_back() vs begin().
+
+- discutir os parâmetros que serão passados, como por exemplo o withThisCpu do
+  canRunGridApplication(...)

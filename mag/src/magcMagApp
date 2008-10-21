@@ -1,0 +1,3 @@
+#!/bin/bash
+javac -source 1.2 -target 1.2 -classpath /home/pos/vinicius/integrade-mag/mag/classes/:/home/pos/vinicius/programas/jade/classes/:/home/pos/vinicius/integrade-mag/clusterManagement/grm/classes/ core/application/MagApplication.java -d ../classes/
+

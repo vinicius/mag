@@ -1,0 +1,264 @@
+package core.ontology;
+
+
+import jade.content.*;
+import jade.util.leap.*;
+import jade.core.*;
+
+/**
+   * Protege name: ExecutionInfo
+* @author ontology bean generator
+* @version 2007/02/20, 11:28:12
+*/
+public class ExecutionInfo implements Concept {
+
+   /**
+   * Protege name: userName
+   */
+   private String userName;
+   public void setUserName(String value) { 
+    this.userName=value;
+   }
+   public String getUserName() {
+     return this.userName;
+   }
+
+   /**
+   * Protege name: appMainRequestId
+   */
+   private String appMainRequestId;
+   public void setAppMainRequestId(String value) { 
+    this.appMainRequestId=value;
+   }
+   public String getAppMainRequestId() {
+     return this.appMainRequestId;
+   }
+
+   /**
+   * Protege name: appReposId
+   */
+   private String appReposId;
+   public void setAppReposId(String value) { 
+    this.appReposId=value;
+   }
+   public String getAppReposId() {
+     return this.appReposId;
+   }
+
+   /**
+   * Protege name: plataformType
+   */
+   private String plataformType;
+   public void setPlataformType(String value) { 
+    this.plataformType=value;
+   }
+   public String getPlataformType() {
+     return this.plataformType;
+   }
+
+   /**
+   * Protege name: outputFiles
+   */
+   private List outputFiles = new ArrayList();
+   public void addOutputFiles(OutputFile elem) { 
+     outputFiles.add(elem);
+   }
+   public boolean removeOutputFiles(OutputFile elem) {
+
+     boolean result = outputFiles.remove(elem);
+     return result;
+   }
+   public void clearAllOutputFiles() {
+
+     outputFiles.clear();
+   }
+   public Iterator getAllOutputFiles() {return outputFiles.iterator(); }
+   public List getOutputFiles() {return outputFiles; }
+   public void setOutputFiles(List l) {outputFiles = l; }
+
+   /**
+   * Protege name: appNodeRequestId
+   */
+   private String appNodeRequestId;
+   public void setAppNodeRequestId(String value) { 
+    this.appNodeRequestId=value;
+   }
+   public String getAppNodeRequestId() {
+     return this.appNodeRequestId;
+   }
+
+   /**
+   * Protege name: appPreferences
+   */
+   private String appPreferences;
+   public void setAppPreferences(String value) { 
+    this.appPreferences=value;
+   }
+   public String getAppPreferences() {
+     return this.appPreferences;
+   }
+
+   /**
+   * Protege name: appName
+   */
+   private String appName;
+   public void setAppName(String value) { 
+    this.appName=value;
+   }
+   public String getAppName() {
+     return this.appName;
+   }
+
+   /**
+   * Protege name: appReplicaId
+   */
+   private String appReplicaId;
+   public void setAppReplicaId(String value) { 
+    this.appReplicaId=value;
+   }
+   public String getAppReplicaId() {
+     return this.appReplicaId;
+   }
+
+   /**
+   * Protege name: finishTimestamp
+   */
+   private String finishTimestamp;
+   public void setFinishTimestamp(String value) { 
+    this.finishTimestamp=value;
+   }
+   public String getFinishTimestamp() {
+     return this.finishTimestamp;
+   }
+
+   /**
+   * Protege name: inputFiles
+   */
+   private List inputFiles = new ArrayList();
+   public void addInputFiles(InputFile elem) { 
+     inputFiles.add(elem);
+   }
+   public boolean removeInputFiles(InputFile elem) {
+
+     boolean result = inputFiles.remove(elem);
+     return result;
+   }
+   public void clearAllInputFiles() {
+
+     inputFiles.clear();
+   }
+   public Iterator getAllInputFiles() {return inputFiles.iterator(); }
+   public List getInputFiles() {return inputFiles; }
+   public void setInputFiles(List l) {inputFiles = l; }
+
+   /**
+   * Protege name: numberOfReplicas
+   */
+   private String numberOfReplicas;
+   public void setNumberOfReplicas(String value) { 
+    this.numberOfReplicas=value;
+   }
+   public String getNumberOfReplicas() {
+     return this.numberOfReplicas;
+   }
+
+   /**
+   * Protege name: initialTimestamp
+   */
+   private String initialTimestamp;
+   public void setInitialTimestamp(String value) { 
+    this.initialTimestamp=value;
+   }
+   public String getInitialTimestamp() {
+     return this.initialTimestamp;
+   }
+
+   /**
+   * Protege name: appConstraints
+   */
+   private String appConstraints;
+   public void setAppConstraints(String value) { 
+    this.appConstraints=value;
+   }
+   public String getAppConstraints() {
+     return this.appConstraints;
+   }
+
+   /**
+   * Protege name: appExecutionId
+   */
+   private String appExecutionId;
+   public void setAppExecutionId(String value) { 
+    this.appExecutionId=value;
+   }
+   public String getAppExecutionId() {
+     return this.appExecutionId;
+   }
+
+   /**
+   * Protege name: asctIor
+   */
+   private String asctIor;
+   public void setAsctIor(String value) { 
+    this.asctIor=value;
+   }
+   public String getAsctIor() {
+     return this.asctIor;
+   }
+
+   /**
+   * Protege name: appArgs
+   */
+   private String appArgs;
+   public void setAppArgs(String value) { 
+    this.appArgs=value;
+   }
+   public String getAppArgs() {
+     return this.appArgs;
+   }
+
+   /**
+   * Protege name: executionType
+   */
+   private String executionType;
+   public void setExecutionType(String value) { 
+    this.executionType=value;
+   }
+   public String getExecutionType() {
+     return this.executionType;
+   }
+
+   /**
+   * Protege name: executingHost
+   */
+   private String executingHost;
+   public void setExecutingHost(String value) { 
+    this.executingHost=value;
+   }
+   public String getExecutingHost() {
+     return this.executingHost;
+   }
+
+   /**
+   * Protege name: executionState
+   */
+   private String executionState;
+   public void setExecutionState(String value) { 
+    this.executionState=value;
+   }
+   public String getExecutionState() {
+     return this.executionState;
+   }
+
+   /**
+   * Protege name: binaryName
+   */
+   private String binaryName;
+   public void setBinaryName(String value) { 
+    this.binaryName=value;
+   }
+   public String getBinaryName() {
+     return this.binaryName;
+   }
+
+}

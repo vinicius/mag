@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry including="*.java" kind="src" path="arsm">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="asct/arsm"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry including="*.java" kind="src" path="arsc"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/applicationRepository"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/grm"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/mag"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

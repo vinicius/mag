@@ -1,0 +1,2 @@
+#!/bin/sh
+java -classpath /home/pos/vinicius/integrade-mag/mag/classes/:/home/pos/vinicius/programas/jade.new/classes/:. core.brakes.be.ac.kuleuven.cs.ttm.transformer.Transformer $1 > /dev/null

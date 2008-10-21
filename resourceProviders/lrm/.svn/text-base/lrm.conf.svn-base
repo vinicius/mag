@@ -1,0 +1,13 @@
+sampleInterval 30
+keepAliveInterval 100
+threshold 1
+ahIorDir ../../mag/classes/ahiors
+ahIdlFile ../../shared/idls/ResourceManagement.idl
+appReposIdlPath ../../shared/idls/ApplicationRepository.idl
+cosNamingIdlPath ../../shared/idls/CosNaming.idl
+serverNameRef corbaloc::guaguin:47039/NameService
+resourceManagementIdlPath ../../shared/idls/ResourceManagement.idl
+enableLupa 0
+orbPath /usr/local/publico/oilpack/?
+secureAppRepos false
+

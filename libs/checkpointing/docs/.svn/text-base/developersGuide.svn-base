@@ -1,0 +1,61 @@
+This document contains the description of the checkpointing library.
+
+1. Initializing checkpointing
+
+An application initializes checkpointing calling the method 
+'void initCheckpointing(int argc, char **argv)' from CheckpointinLib.hpp
+
+2. Checkpointing configuration
+
+Configuration info is passed to the checkpointing library using a file 'ckp.conf',
+which should be placed at the application execution directory. The LRM automatically
+copies the file 'ckp.conf' from its directory to the application execution directory.
+This file contains the checkpointing storage method and interval, and has the following 
+syntax:
+
+ckpStore <storageType>, where
+storageType = noCheckpointing | ckpNoStore | ckpLocalStore | ckpReplicatedReposStore | 
+              ckpParityReposStore | ckpIdaReposStore
+
+for all storage types, a field 'interval=<numberOfSeconds>', containing the
+checkpointing interval is also expected
+
+when using the ckpLocalStore storage type, a field 'location=<storagePath>',
+containing the checkpoint storage location is also required.
+
+when 'ckpReplicatedReposStore' storage type, a field called 'nCopies'
+determines the number of replicas that will be stored.
+If a field 'location=<storagePath>' is set, a copy is also stored at 'storagePath'
+
+when using the 'ckpParityReposStore' storage type, a field 'nFragments'
+determines the number of fragments used to determine the parity.
+If a field 'location=<storagePath>' is set, a copy is also stored at 'storagePath'
+
+when using the ckpIdaReposStore storage type, the fields 'nFragments' and 
+'nExtra' determine the number of basic and redudant fragments.
+If a field 'location=<storagePath>' is set, a copy is also stored at 'storagePath'
+
+Example 1: storage in the application execution directory, with a checkpointing
+           interval of 30 seconds.
+> ckpStore ckpLocalStore
+> location ./
+> interval 30
+
+Example 2: storage in remote repositories.
+> ckpStore ckpIdaReposStore
+> interval 30
+> nFragments 4
+> nExtra 2
+
+3. Restarting applications
+
+When running application within InteGrade, and checkpoint are stored remotely, the checkpoint
+library automatically contacts the CkpReposManager to get the last checkpoint number and location.
+If a checkpoint is available, the library fetches the checkpoint and restart the application.
+
+Also, checkpoint data can be saved exclusivelly locally. In this case, the library can run
+independently from InteGrade and applications can be restarted from previous checkpoints 
+calling the application with an extra argument, '<applicationName> -r<ckpNumber>'. 
+Ex: For restarting the 'matrix' application using checkopint number 5.
+> matrix -r5
+

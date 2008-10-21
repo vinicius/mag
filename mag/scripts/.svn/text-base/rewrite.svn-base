@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#file=$1;
+#rewritten=$file".rewritten";
+#orig=$file".orig";
+
+java core.brakes.be.ac.kuleuven.cs.ttm.transformer.Transformer $@ > /dev/null
+#cp $file $orig
+#cp $rewritten $file
+

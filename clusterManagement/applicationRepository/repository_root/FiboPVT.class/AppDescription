@@ -1,0 +1,6 @@
+#application properties
+#Wed Oct 08 17:13:03 BRT 2008
+number_of_binaries=1
+application_name=FiboPVT.class
+base_path=/
+Java__binaryFile=Java_

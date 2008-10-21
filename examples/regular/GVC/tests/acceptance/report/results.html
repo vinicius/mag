@@ -1,0 +1,292 @@
+<html><body>
+<h1>Test suite results </h1>
+
+<table>
+<tr>
+<td>result:</td>
+<td>failed</td>
+</tr>
+<tr>
+<td>totalTime:</td>
+<td>38</td>
+</tr>
+<tr>
+<td>numTestPasses:</td>
+<td>2</td>
+</tr>
+<tr>
+<td>numTestFailures:</td>
+<td>1</td>
+</tr>
+<tr>
+<td>numCommandPasses:</td>
+<td>9</td>
+</tr>
+<tr>
+<td>numCommandFailures:</td>
+<td>0</td>
+</tr>
+<tr>
+<td>numCommandErrors:</td>
+<td>1</td>
+</tr>
+<tr>
+<td>
+
+<table border="1" cellpadding="1" cellspacing="1">
+        <tbody>
+            <tr><td bgcolor="#ffcccc"><b>Test Suite GVC</b></td></tr>
+
+            <tr><td bgcolor="#ffcccc"><a href="./gvc/uploadFile.html">uploadFile</a></td></tr>
+            <tr><td bgcolor="#ccffcc"><a href="./gvc/downloadList.html">downloadList</a></td></tr>
+            <tr><td bgcolor="#ccffcc"><a href="./gvc/convertionList.html">convertionList</a></td></tr>
+
+        </tbody>
+    </table>
+
+
+</td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><div>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr bgcolor="#ffcccc"><td rowspan="1" colspan="3">uploadfile</td></tr>
+</thead><tbody>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>/tmp/gvcVideoTest.avi</td>
+	<td>path1</td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>arquivoNaoExistente/tmp</td>
+	<td>path2</td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>gvcVideoTest.avi</td>
+	<td>filename1</td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>arquivoNaoExistente/tmp</td>
+	<td>filename2</td>
+</tr>
+<tr title="Element link=Upload not found" bgcolor="#ffcccc">
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td>Element link=Upload not found</td>
+</tr>
+<!--Test 0 - null-->
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextPresent</td>
+	<td>Validation Error "fileupload": Value is required.</td>
+	<td></td>
+</tr>
+<!--Test 1 - valid file-->
+<tr bgcolor="">
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>type</td>
+	<td>uploadForm:fileupload</td>
+	<td>${path1}</td>
+</tr>
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextPresent</td>
+	<td>File uploaded succesfully!</td>
+	<td></td>
+</tr>
+<!--Test 2 - File dont exist-->
+<tr bgcolor="">
+	<td>open</td>
+	<td>/GVC/pages/home.jsf</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>link=Upload</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>type</td>
+	<td>uploadForm:fileupload</td>
+	<td>${path2}</td>
+</tr>
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>uploadForm:uploadButton</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextPresent</td>
+	<td>MISSING: fileUploadForm.errorStatus :MISSING</td>
+	<td></td>
+</tr>
+<!--Test 3 - Invalid file-->
+<!--Test 4 - convertionList and downloadList-->
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>link=Convert</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextPresent</td>
+	<td>${filename1}</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextNotPresent</td>
+	<td>${filename2}</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>clickAndWait</td>
+	<td>link=Download</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextPresent</td>
+	<td>${filename1}</td>
+	<td></td>
+</tr>
+<tr bgcolor="">
+	<td>assertTextNotPresent</td>
+	<td>${filename2}</td>
+	<td></td>
+</tr>
+</tbody></table>
+
+</div></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><div>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr bgcolor="#ccffcc"><td rowspan="1" colspan="3">downloadList</td></tr>
+</thead><tbody>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>/tmp/gvcVideoTest.avi</td>
+	<td>path1</td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>store</td>
+	<td>gvcVideoTest.avi</td>
+	<td>filename1</td>
+</tr>
+<!--Test 1-->
+<tr bgcolor="#eeffee">
+	<td>open</td>
+	<td>/GVC</td>
+	<td></td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>clickAndWait</td>
+	<td>link=Download</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Download - Video Files List</td>
+	<td></td>
+</tr>
+</tbody></table>
+
+</div></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td><div>
+<table border="1" cellpadding="1" cellspacing="1">
+<thead>
+<tr bgcolor="#ccffcc"><td rowspan="1" colspan="3">convertionList</td></tr>
+</thead><tbody>
+<tr bgcolor="#eeffee">
+	<td>open</td>
+	<td>/GVC</td>
+	<td></td>
+</tr>
+<tr bgcolor="#eeffee">
+	<td>clickAndWait</td>
+	<td>link=Convert</td>
+	<td></td>
+</tr>
+<!--Elements-->
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Upload - Video Files List</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Convert To</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Original Files</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:palmButton</td>
+	<td>PalmOS</td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:customizeButton</td>
+	<td>Customize</td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertValue</td>
+	<td>convertionForm:filesTable:0:iPodButton</td>
+	<td>iPod</td>
+</tr>
+<!--Test 1 - iPod-->
+<tr bgcolor="#eeffee">
+	<td>clickAndWait</td>
+	<td>convertionForm:filesTable:0:iPodButton</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Converting file, please wait...</td>
+	<td></td>
+</tr>
+<!--Test 2 - Palm-->
+<tr bgcolor="#eeffee">
+	<td>clickAndWait</td>
+	<td>convertionForm:filesTable:0:palmButton</td>
+	<td></td>
+</tr>
+<tr bgcolor="#ccffcc">
+	<td>assertTextPresent</td>
+	<td>Converting file, please wait...</td>
+	<td></td>
+</tr>
+<!--Test 3 - Customize-->
+<!--Test 4 - Invalid File-->
+<!--Test 1-->
+</tbody></table>
+
+</div></td>
+<td>&nbsp;</td>
+</tr></table></body></html>

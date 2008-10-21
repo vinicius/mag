@@ -1,0 +1,37 @@
+- BSP applications
+  - When one of the processes die, should kill the others
+  
+- Checkpointing library  
+	* Check checkpoint checksum (06/06)
+	* Store checkpoint size in CkpRepositoryManager (06/06)
+	* Checkpoints can be optionally stored in the local filesystem (06/06)
+	* Error handling when some repositories are not available to upload/retrieva data (06/06)
+	* Refactor the implementation of the several storage strategies (06/06)
+		* There is now a superclass and each storage strategy implements four virtual methods (06/06)	
+        * Added locks to CkpReposManagerStub (07/06)
+
+- CkpRepositoryManager 
+	* Returns random repositories (06/06)
+	* Keep the checkpoint size and fragment checksums (06/06)
+	- Control the space available on each ckpRepos (07/06)
+	  - CkpRepositories should send its available space to CkpReposManager (07/06)
+	  - CkpReposManager should only return CkpRepos with available space (07/06)
+	  - When CkpRepos store a checkpoint fragment, it tells the CRM about the availableSpace (07/06)
+
+	- Checks which repositories are working (07/06)
+      - Method void updateRepositoryStatus (int availableSpace) (07/06)
+      - Add a lastUpdate field to ckpRepos (07/06)
+      - When the getCkpReposMethod is called, check which repository is working (07/06)
+      - CkpRepository has a thread that periodically updates itself with the CRM (07/06)
+
+	- Remove old files from ckpRepos (07/06)
+	  - Method to obtain a list of checkpoint files to remove (07/06)
+      - CRM removes checkpoints as new ones are generated and processes finish (07/06)
+      - CkpRepository removes the files set for removal (07/06)
+
+	- Add fragment tracking to ckpRepos and CRM (07/06)
+
+- TODO:
+	- should return a number of ckpRepositories larger than the requested by the application
+    	- this would compensate the case where one or more checkpoints are not available
+

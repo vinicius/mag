@@ -1,0 +1,7 @@
+#Just a comment
+grmIOR IOR:BOGUSIOR
+appReposIor IOR:DUMMYIOR
+#Just a comment
+sampleInterval 120
+keepAliveInterval 600
+threshold 1

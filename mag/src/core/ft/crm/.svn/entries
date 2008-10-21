@@ -1,0 +1,67 @@
+8
+
+dir
+36
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag/tags/integrade-mag-0.3.2/mag/src/core/ft/crm
+svn+ssh://vinicius@lsd.ufma.br/svnroot/integrade-mag
+
+
+
+2007-05-26T01:51:57.352147Z
+23
+diego
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+4dceb139-3b31-0410-b1ad-fa9dc033259f
+
+CrmAgent.java
+file
+
+
+
+
+2007-08-08T21:00:10.000000Z
+e79696ae1b68ca5211778bacdeed92f2
+2007-05-26T01:51:57.352147Z
+23
+diego
+
+CrmLauncher.java
+file
+
+
+
+
+2007-08-08T21:00:10.000000Z
+1aec2ef6472d838e1ee05a85480e2ce3
+2007-05-24T20:41:03.741451Z
+18
+diego
+
+CrmAgentServantImpl.java
+file
+
+
+
+
+2007-08-08T21:00:10.000000Z
+32e8d2d99f011a1215292435d37273ba
+2007-05-26T01:51:57.352147Z
+23
+diego
+
+behaviours
+dir
+
